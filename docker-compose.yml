@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  api:
+    container_name: chat-app-api
+    tty: true
+    restart: unless-stopped
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    expose:
+      - '3001'
+    ports:
+      - '3001:3001'
+    volumes:
+      - ./server:/usr/app/
+  # client:
+  #   container_name: chat-app-client
+  #   tty: true
+  #   restart: unless-stopped
+  #   build:
+  #     context: ./client
+  #     dockerfile: Dockerfile
+  #   depends_on:
+  #     - api
+  #   expose:
+  #     - '3000'
+  #   ports:
+  #     - '3000:3000'
+  #   volumes:
+  #     - ./client:/usr/app/
