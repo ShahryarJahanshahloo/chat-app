@@ -1,6 +1,10 @@
 import s from './Message.module.css'
+import useUserStore from '../hooks/useUserStore'
 
-const Message = ({ value, sent }) => {
+const Message = ({ value }) => {
+  const user = useUserStore(state => state.user)
+  const sent = value.author == user.id
+
   return (
     <div className={s.messageBlock}>
       <div className={sent ? s.innerSent : s.inner}>
