@@ -12,7 +12,7 @@ const io = new Server(server, {
 
 io.on('connection', socket => {
   socket.on('chat_msg', msg => {
-    console.log(msg)
+    io.emit('new_msg', msg)
   })
 })
 
