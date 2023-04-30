@@ -8,7 +8,7 @@ function App() {
   const { isConnected, setIsConnected } = useSocket()
 
   return (
-    <div>
+    <div id='App'>
       <MainSection />
     </div>
   )

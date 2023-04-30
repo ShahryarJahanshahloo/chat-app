@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { socket } from '../lib/socket'
+import s from './Compose.module.css'
+import { BsFillSendFill as SendButton } from 'react-icons/bs'
 
 const Compose = () => {
   const [message, setMessage] = useState('')
@@ -13,9 +15,18 @@ const Compose = () => {
   }
 
   return (
-    <div>
-      <input onChange={onChangeHandler} value={message}></input>
-      <button onClick={clickHandler}>submit</button>
+    <div className={s.container}>
+      <div className={s.inner}>
+        <input
+          className={s.input}
+          onChange={onChangeHandler}
+          value={message}
+          placeholder='Type a message'
+        ></input>
+        <div className={s.send} onClick={clickHandler}>
+          <SendButton style={{ color: 'white', fontSize: '20px' }} />
+        </div>
+      </div>
     </div>
   )
 }

@@ -1,0 +1,28 @@
+.container {
+  height: 100%;
+  width: 100%;
+  padding: 10px 20px;
+  overflow-y: auto;
+}
+
+::-webkit-scrollbar {
+  opacity: 0;
+  background: transparent;
+  width: 6px;
+}
+
+::-webkit-scrollbar:hover {
+  opacity: 1;
+}
+
+.container:hover::-webkit-scrollbar-thumb {
+  background: rgb(231, 231, 231);
+  border-radius: 8px;
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}

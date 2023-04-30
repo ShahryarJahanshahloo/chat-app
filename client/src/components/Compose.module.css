@@ -1,0 +1,36 @@
+.container {
+  width: 100%;
+  height: 48px;
+  padding: 0 20px;
+}
+
+.inner {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.input {
+  border: none;
+  height: 100%;
+  border-radius: 24px;
+  width: 100%;
+  padding: 0 24px;
+  outline: none;
+  margin-right: 10px;
+  background-color: #f2f5f9;
+}
+
+.send {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-shrink: 0;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 24px;
+  background-color: rgb(67, 187, 141);
+}
