@@ -24,7 +24,7 @@ const MessagesList = () => {
         {messages &&
           messages.map((value, index) => (
             <div key={index}>
-              <Message value={value} />
+              <Message value={value} sent={true} />
             </div>
           ))}
       </div>
