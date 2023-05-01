@@ -7,6 +7,8 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile
+    depends_on:
+      - db
     expose:
       - '3001'
     ports:
@@ -32,13 +34,14 @@ services:
 
   db:
     container_name: chat-app-db
+    # hostname: chat-app-db
     image: postgres:14.1-alpine
     restart: unless-stopped
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
     ports:
-      - '5433:5433'
+      - '5433:5432'
     expose:
       - '5433'
     volumes:
