@@ -21,6 +21,10 @@ const Compose = () => {
     setMessage(e.target.value)
   }
 
+  function keyDownHandler(e) {
+    if (e.keyCode === 13 && e.ctrlKey) clickHandler()
+  }
+
   return (
     <div className={s.container}>
       <div className={s.inner}>
@@ -31,6 +35,7 @@ const Compose = () => {
             value={message}
             placeholder='Type a message'
             ref={inputRef}
+            onKeyDown={keyDownHandler}
           />
         </div>
         <div className={s.send} onClick={clickHandler}>

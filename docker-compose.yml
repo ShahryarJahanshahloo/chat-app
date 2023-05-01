@@ -13,6 +13,7 @@ services:
       - '3001:3001'
     volumes:
       - ./server:/usr/app/
+
   client:
     container_name: chat-app-client
     tty: true
@@ -28,3 +29,21 @@ services:
       - '3000:3000'
     volumes:
       - ./client:/usr/app/
+
+  db:
+    container_name: chat-app-db
+    image: postgres:14.1-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '5433:5433'
+    expose:
+      - '5433'
+    volumes:
+      - db:/var/lib/postgresql/data
+
+volumes:
+  db:
+    driver: local
