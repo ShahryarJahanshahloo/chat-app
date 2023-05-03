@@ -2,13 +2,14 @@ import { useRef, useState } from 'react'
 import { socket } from '../lib/socket'
 import s from './Compose.module.css'
 import { BsFillSendFill as SendButton } from 'react-icons/bs'
+import { events } from '../lib/socket'
 
 const Compose = () => {
   const [message, setMessage] = useState('')
   const inputRef = useRef()
 
   function clickHandler() {
-    socket.emit('chat_msg', {
+    socket.emit(events.MSG_COMPOSED, {
       text: message,
       author: 132,
       date: Date.now(),

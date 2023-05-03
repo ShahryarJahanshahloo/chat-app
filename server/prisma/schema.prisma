@@ -12,17 +12,26 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  posts Post[]
+  id            Int            @id @default(autoincrement())
+  email         String         @unique
+  name          String?
+  messages      Message[]
+  conversations Conversation[]
 }
 
-model Post {
-  id        Int     @id @default(autoincrement())
-  title     String
-  content   String?
-  published Boolean @default(false)
-  author    User    @relation(fields: [authorId], references: [id])
-  authorId  Int
+model Conversation {
+  id       Int       @id @default(autoincrement())
+  messages Message[]
+  members  User[]
+}
+
+model Message {
+  id             Int          @id @default(autoincrement())
+  text           String
+  seen           Boolean      @default(false)
+  author         User         @relation(fields: [authorId], references: [id])
+  authorId       Int
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+  conversationId Int
+  // createdAt DateTime @default(now())
 }

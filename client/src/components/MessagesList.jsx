@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { socket } from '../lib/socket'
 import Message from './Message'
 import s from './MessagesList.module.css'
+import { events } from '../lib/socket'
 
 const MessagesList = () => {
   const [messages, setMessages] = useState([])
@@ -11,10 +12,10 @@ const MessagesList = () => {
       setMessages(prevState => [...prevState, msg])
     }
 
-    socket.on('new_msg', onNewMessage)
+    socket.on(events.MSG_RECIEVED, onNewMessage)
 
     return () => {
-      socket.off('new_msg')
+      socket.off(events.MSG_RECIEVED)
     }
   }, [])
 

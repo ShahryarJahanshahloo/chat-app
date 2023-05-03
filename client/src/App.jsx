@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { socket } from './lib/socket'
 import useSocket from './hooks/useSocket'
 import MainSection from './components/MainSection'
+import Conversations from './components/Conversations'
+import s from './layout.module.css'
 import './App.css'
 
 function App() {
@@ -9,7 +11,10 @@ function App() {
 
   return (
     <div id='App'>
-      <MainSection />
+      <div className={s.flex}>
+        <Conversations />
+        <MainSection />
+      </div>
     </div>
   )
 }
