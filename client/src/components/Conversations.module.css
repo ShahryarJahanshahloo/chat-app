@@ -2,3 +2,23 @@
   min-width: 240px;
   width: 33%;
 }
+
+.inner {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 100px;
+}
+
+.text {
+  padding-left: 20px;
+  font-size: 24px;
+}
+
+.convs {
+}

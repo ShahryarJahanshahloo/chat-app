@@ -21,18 +21,25 @@ const Conversations = () => {
 
   return (
     <div className={s.main}>
-      {conversations
-        ? conversations.map(item => {
-            return (
-              <div key={item.conversation.id}>
-                <Conversation
-                  id={item.conversation.id}
-                  name={item.conversation.name}
-                />
-              </div>
-            )
-          })
-        : null}
+      <div className={s.inner}>
+        <div className={s.title}>
+          <div className={s.text}>Conversations</div>
+        </div>
+        <div className={s.convs}>
+          {conversations
+            ? conversations.map(item => {
+                return (
+                  <div key={item.conversation.id}>
+                    <Conversation
+                      id={item.conversation.id}
+                      name={item.conversation.name}
+                    />
+                  </div>
+                )
+              })
+            : null}
+        </div>
+      </div>
     </div>
   )
 }
