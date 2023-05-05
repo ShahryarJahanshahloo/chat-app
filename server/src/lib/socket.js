@@ -1,9 +1,6 @@
 import { Server } from 'socket.io'
-
-const events = {
-  MSG_COMPOSED: 'MSG_COMPOSED',
-  MSG_RECIEVED: 'MSG_RECIEVED',
-}
+import { auth, joinRooms } from '../socket/helpers.js'
+import events from '../socket/events.js'
 
 export default function initSocket(server) {
   const io = new Server(server, {
@@ -12,9 +9,29 @@ export default function initSocket(server) {
     },
   })
 
-  io.on('connection', socket => {
-    socket.on(events.MSG_COMPOSED, msg => {
-      io.emit(events.MSG_RECIEVED, msg)
+  io.on('connection', async socket => {
+    const conversations = await joinRooms(socket.handshake.auth.token, socket)
+    if (conversations) {
+      socket.emit(events.USER_CONVS, conversations)
+    }
+
+    socket.on(events.MSG_FROM_CLIENT, async msg => {
+      try {
+        const user = await auth(socket.handshake.auth.token)
+        if (!user) throw new Error('invalid token')
+        // const message = await prisma.message.create({
+        //   data: {
+        //     text: msg.text,
+        //     authorId: user.id,
+        //     conversationId: msg.conversationId,
+        //     createdAt: msg.createdAt,
+        //   },
+        // })
+        io.to(msg.conversationId).emit(events.MSG_FROM_SERVER, msg)
+      } catch (error) {
+        console.log(error)
+        // TODO: handle error
+      }
     })
   })
 }

@@ -9,10 +9,10 @@ const Compose = () => {
   const inputRef = useRef()
 
   function clickHandler() {
-    socket.emit(events.MSG_COMPOSED, {
+    socket.emit(events.MSG_FROM_CLIENT, {
       text: message,
-      author: 132,
-      date: Date.now(),
+      conversationId: 1,
+      createdAt: Date.now(),
     })
     setMessage('')
     inputRef.current.focus()

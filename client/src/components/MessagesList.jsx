@@ -9,13 +9,14 @@ const MessagesList = () => {
 
   useEffect(() => {
     function onNewMessage(msg) {
+      console.log(msg)
       setMessages(prevState => [...prevState, msg])
     }
 
-    socket.on(events.MSG_RECIEVED, onNewMessage)
+    socket.on(events.MSG_FROM_SERVER, onNewMessage)
 
     return () => {
-      socket.off(events.MSG_RECIEVED)
+      socket.off(events.MSG_FROM_SERVER)
     }
   }, [])
 

@@ -1,8 +1,9 @@
 import io from 'socket.io-client'
 
 export const events = {
-  MSG_COMPOSED: 'MSG_COMPOSED',
-  MSG_RECIEVED: 'MSG_RECIEVED',
+  MSG_FROM_SERVER: 'MSG_FROM_SERVER',
+  MSG_FROM_CLIENT: 'MSG_FROM_CLIENT',
+  USER_CONVS: 'USER_CONVS',
 }
 
 export const socket = io('http://localhost:3001', {
@@ -13,4 +14,5 @@ export const socket = io('http://localhost:3001', {
   agent: false,
   upgrade: false,
   rejectUnauthorized: false,
+  auth: { token: localStorage.getItem('jwt') },
 })
