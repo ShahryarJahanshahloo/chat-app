@@ -2,8 +2,9 @@ import s from './Conversation.module.css'
 import useSelectedConversationStore from '../hooks/useSelectedConversationStore'
 
 const Conversation = ({ id, name }) => {
-  const { conversation, selectConversation } = useSelectedConversationStore(
-    state => state
+  const conversation = useSelectedConversationStore(state => state.conversation)
+  const selectConversation = useSelectedConversationStore(
+    state => state.selectConversation
   )
   const isSelected = conversation == null ? false : conversation.id == id
 

@@ -2,14 +2,16 @@ import { useRef, useState, useEffect } from 'react'
 import { socket, events } from '../lib/socket'
 import s from './Conversations.module.css'
 import Conversation from './Conversation'
+import useMessagesStore from '../hooks/useMessagesStore'
 
 const Conversations = () => {
   const [conversations, setConversations] = useState()
+  const initConversations = useMessagesStore(state => state.initConversations)
 
   useEffect(() => {
     function onConversations(convs) {
-      console.log(convs)
       setConversations(convs)
+      initConversations(convs)
     }
 
     socket.on(events.USER_CONVS, onConversations)

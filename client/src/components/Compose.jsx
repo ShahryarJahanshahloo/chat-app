@@ -3,15 +3,17 @@ import { socket } from '../lib/socket'
 import s from './Compose.module.css'
 import { BsFillSendFill as SendButton } from 'react-icons/bs'
 import { events } from '../lib/socket'
+import useSelectedConversationStore from '../hooks/useSelectedConversationStore'
 
 const Compose = () => {
   const [message, setMessage] = useState('')
   const inputRef = useRef()
+  const conversation = useSelectedConversationStore(state => state.conversation)
 
   function clickHandler() {
     socket.emit(events.MSG_FROM_CLIENT, {
       text: message,
-      conversationId: 1,
+      conversationId: conversation.id,
       createdAt: Date.now(),
     })
     setMessage('')
@@ -28,21 +30,23 @@ const Compose = () => {
 
   return (
     <div className={s.container}>
-      <div className={s.inner}>
-        <div className={s.compose}>
-          <textarea
-            className={s.input}
-            onChange={onChangeHandler}
-            value={message}
-            placeholder='Type a message'
-            ref={inputRef}
-            onKeyDown={keyDownHandler}
-          />
+      {conversation == null ? null : (
+        <div className={s.inner}>
+          <div className={s.compose}>
+            <textarea
+              className={s.input}
+              onChange={onChangeHandler}
+              value={message}
+              placeholder='Type a message'
+              ref={inputRef}
+              onKeyDown={keyDownHandler}
+            />
+          </div>
+          <div className={s.send} onClick={clickHandler}>
+            <SendButton style={{ color: 'white', fontSize: '20px' }} />
+          </div>
         </div>
-        <div className={s.send} onClick={clickHandler}>
-          <SendButton style={{ color: 'white', fontSize: '20px' }} />
-        </div>
-      </div>
+      )}
     </div>
   )
 }
