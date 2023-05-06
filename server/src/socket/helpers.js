@@ -11,6 +11,8 @@ export async function auth(token) {
       },
       select: {
         id: true,
+        name: true,
+        color: true,
       },
     })
     return user

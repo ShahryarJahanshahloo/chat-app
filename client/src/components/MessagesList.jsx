@@ -5,6 +5,7 @@ import s from './MessagesList.module.css'
 import { events } from '../lib/socket'
 import useMessagesStore from '../hooks/useMessagesStore'
 import useSelectedConversationStore from '../hooks/useSelectedConversationStore'
+import moment from 'moment'
 
 const MessagesList = () => {
   const messages = useMessagesStore(state => state.messages)
@@ -15,7 +16,8 @@ const MessagesList = () => {
 
   useEffect(() => {
     function onNewMessage(msg) {
-      console.log(messages)
+      const date = moment(msg.createdAt).format('HH:mm')
+      msg.createdAt = date
       addNewMessage(msg)
     }
 
@@ -26,8 +28,6 @@ const MessagesList = () => {
     }
   }, [])
 
-  console.log(selectedConversation, messages)
-
   return (
     <div className={s.container}>
       <div className={s.inner}>
@@ -35,7 +35,7 @@ const MessagesList = () => {
           ? null
           : messages[selectedConversation.id].map((value, index) => (
               <div key={index}>
-                <Message value={value} sent={true} />
+                <Message message={value} sent={true} />
               </div>
             ))}
       </div>

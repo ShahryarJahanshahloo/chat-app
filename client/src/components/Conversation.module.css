@@ -10,11 +10,12 @@
   height: 80px;
   cursor: pointer;
   transition: background 0.2s ease;
-  background-color: rgb(227, 228, 235);
+  background-color: rgb(67, 187, 141);
+  color: white;
 }
 
 .main:hover {
-  background-color: rgb(227, 228, 235);
+  text-decoration: underline;
 }
 
 .inner {

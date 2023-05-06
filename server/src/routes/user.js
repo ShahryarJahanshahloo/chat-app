@@ -46,7 +46,7 @@ router.post('/login', async (req, res) => {
 })
 
 router.post('/auth', auth, async (req, res) => {
-  res.send({ authenticated: true })
+  res.send({ userId: req.user.id })
 })
 
 export default router

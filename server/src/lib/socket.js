@@ -27,7 +27,14 @@ export default function initSocket(server) {
         //     createdAt: msg.createdAt,
         //   },
         // })
-        io.to(msg.conversationId).emit(events.MSG_FROM_SERVER, msg)
+        io.to(msg.conversationId).emit(events.MSG_FROM_SERVER, {
+          text: msg.text,
+          conversationId: msg.conversationId,
+          createdAt: msg.createdAt,
+          authorId: user.id,
+          authorName: user.name,
+          authorColor: user.color,
+        })
       } catch (error) {
         console.log(error)
         // TODO: handle error

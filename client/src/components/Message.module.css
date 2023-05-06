@@ -22,6 +22,21 @@
   width: 32px;
   margin-right: 8px;
 }
+
+.authorName {
+  font-size: 10px;
+  padding-bottom: 10px;
+  font-weight: 500;
+  color: #7e7e7e;
+}
+
+.authorNameSent {
+  font-size: 10px;
+  padding-bottom: 10px;
+  font-weight: 500;
+  color: rgb(230, 223, 230);
+}
+
 .authorSent {
   height: 100%;
   width: 32px;
