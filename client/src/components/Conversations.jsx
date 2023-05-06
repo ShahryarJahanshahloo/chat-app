@@ -2,16 +2,23 @@ import { useRef, useState, useEffect } from 'react'
 import { socket, events } from '../lib/socket'
 import s from './Conversations.module.css'
 import Conversation from './Conversation'
-import useMessagesStore from '../hooks/useMessagesStore'
+import useNewMessagesStore from '../hooks/useNewMessagesStore'
+import useOldMessagesStore from '../hooks/useOldMessgesStore'
 
 const Conversations = () => {
   const [conversations, setConversations] = useState()
-  const initConversations = useMessagesStore(state => state.initConversations)
+  const initNewConversations = useNewMessagesStore(
+    state => state.initConversations
+  )
+  const initOldConversations = useOldMessagesStore(
+    state => state.initConversations
+  )
 
   useEffect(() => {
     function onConversations(convs) {
+      initOldConversations(convs)
+      initNewConversations(convs)
       setConversations(convs)
-      initConversations(convs)
     }
 
     socket.on(events.USER_CONVS, onConversations)

@@ -31,10 +31,7 @@
 }
 
 .authorNameSent {
-  font-size: 10px;
-  padding-bottom: 10px;
-  font-weight: 500;
-  color: rgb(230, 223, 230);
+  display: none;
 }
 
 .authorSent {

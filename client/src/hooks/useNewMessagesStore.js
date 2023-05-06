@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-const useMessagesStore = create(set => ({
+const useNewMessagesStore = create(set => ({
   messages: {},
   initConversations: conversations =>
     set(state => {
@@ -25,4 +25,4 @@ const useMessagesStore = create(set => ({
     }),
 }))
 
-export default useMessagesStore
+export default useNewMessagesStore

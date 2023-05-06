@@ -49,5 +49,5 @@ model Message {
   authorId       Int
   conversation   Conversation @relation(fields: [conversationId], references: [id])
   conversationId Int
-  createdAt      DateTime     @default(now())
+  createdAt      BigInt
 }

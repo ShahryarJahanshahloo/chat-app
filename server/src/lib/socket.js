@@ -1,6 +1,7 @@
 import { Server } from 'socket.io'
 import { auth, joinRooms } from '../socket/helpers.js'
 import events from '../socket/events.js'
+import prisma from './prisma.js'
 
 export default function initSocket(server) {
   const io = new Server(server, {
@@ -19,14 +20,16 @@ export default function initSocket(server) {
       try {
         const user = await auth(socket.handshake.auth.token)
         if (!user) throw new Error('invalid token')
-        // const message = await prisma.message.create({
-        //   data: {
-        //     text: msg.text,
-        //     authorId: user.id,
-        //     conversationId: msg.conversationId,
-        //     createdAt: msg.createdAt,
-        //   },
-        // })
+
+        const message = await prisma.message.create({
+          data: {
+            text: msg.text,
+            authorId: user.id,
+            conversationId: msg.conversationId,
+            createdAt: msg.createdAt,
+          },
+        })
+
         io.to(msg.conversationId).emit(events.MSG_FROM_SERVER, {
           text: msg.text,
           conversationId: msg.conversationId,

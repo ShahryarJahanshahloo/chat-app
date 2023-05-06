@@ -1,17 +1,20 @@
 import express from 'express'
+import prisma from '../lib/prisma.js'
 
 const router = express.Router()
 
-// router.post('/', async (req, res) => {
-//   try {
-//   } catch (error) {
-//     console.log(error)
-//     res.status(500).send()
-//   }
-// })
-
-router.get('/:id', async (req, res) => {
+router.get('/conversation/:id', async (req, res) => {
   try {
+    BigInt.prototype.toJSON = function () {
+      return this.toString()
+    }
+    const messages = await prisma.message.findMany({
+      where: {
+        conversationId: +req.params.id,
+      },
+      orderBy: { createdAt: 'asc' },
+    })
+    res.send({ messages })
   } catch (error) {
     console.log(error)
     res.status(500).send()
