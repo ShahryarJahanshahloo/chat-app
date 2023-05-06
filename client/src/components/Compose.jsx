@@ -37,7 +37,7 @@ const Compose = () => {
               className={s.input}
               onChange={onChangeHandler}
               value={message}
-              placeholder='Type a message'
+              placeholder='Type your message...'
               ref={inputRef}
               onKeyDown={keyDownHandler}
             />

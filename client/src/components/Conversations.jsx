@@ -1,9 +1,11 @@
-import { useRef, useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { socket, events } from '../lib/socket'
 import s from './Conversations.module.css'
 import Conversation from './Conversation'
 import useNewMessagesStore from '../hooks/useNewMessagesStore'
 import useOldMessagesStore from '../hooks/useOldMessgesStore'
+import { useNavigate } from 'react-router-dom'
+import request from '../lib/axios'
 
 const Conversations = () => {
   const [conversations, setConversations] = useState()
@@ -13,6 +15,7 @@ const Conversations = () => {
   const initOldConversations = useOldMessagesStore(
     state => state.initConversations
   )
+  const navigate = useNavigate()
 
   useEffect(() => {
     function onConversations(convs) {
@@ -27,6 +30,25 @@ const Conversations = () => {
       socket.off(events.USER_CONVS)
     }
   }, [])
+
+  const logoutHandler = () => {
+    const res = confirm('Are you sure?')
+    if (res) {
+      localStorage.removeItem('jwt')
+      navigate('/login')
+    }
+  }
+
+  const newHandler = async () => {
+    const convName = prompt('Choose a name')
+    const res = await request.post('/conversation', { name: convName })
+    if (res.status == 201) {
+      alert('Conversation created successfully')
+      navigate(0)
+    } else {
+      alert('An error occured')
+    }
+  }
 
   return (
     <div className={s.main}>
@@ -47,6 +69,15 @@ const Conversations = () => {
                 )
               })
             : null}
+        </div>
+        <div className={s.bottom}>
+          <div className={s.new} onClick={newHandler}>
+            <div className={s.plus}>+</div>
+            <div className={s.label}>New Conversation</div>
+          </div>
+          <div className={s.logout} onClick={logoutHandler}>
+            <div className={s.label}>Logout</div>
+          </div>
         </div>
       </div>
     </div>
