@@ -15,7 +15,7 @@
 }
 
 .main:hover {
-  text-decoration: underline;
+  background-color: rgb(196, 238, 220);
 }
 
 .inner {

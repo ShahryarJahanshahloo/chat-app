@@ -1,23 +1,23 @@
-import { useState, useEffect } from 'react'
-import { socket } from './lib/socket'
+import { useEffect } from 'react'
 import useSocket from './hooks/useSocket'
-import MainSection from './components/MainSection'
-import Conversations from './components/Conversations'
-import s from './layout.module.css'
 import './App.css'
 import request from './lib/axios'
 import useUserStore from './hooks/useUserStore'
+import { useNavigate, Routes, Route } from 'react-router-dom'
+import Home from './components/Home'
+import Login from './components/Login'
 
 function App() {
   const { isConnected, setIsConnected } = useSocket()
+  const navigate = useNavigate()
   const setUser = useUserStore(state => state.setUser)
 
   useEffect(() => {
     async function fetch() {
       const res = await request.post('/user/auth')
       if (res.status !== 200) {
+        navigate('/login')
         return
-        // login/signup page
       }
       setUser(res.data.userId)
     }
@@ -26,10 +26,10 @@ function App() {
 
   return (
     <div id='App'>
-      <div className={s.flex}>
-        <Conversations />
-        <MainSection />
-      </div>
+      <Routes>
+        <Route path='/' element={<Home />} />
+        <Route path='/login' element={<Login />} />
+      </Routes>
     </div>
   )
 }
