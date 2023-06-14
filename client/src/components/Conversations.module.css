@@ -22,6 +22,7 @@
 .text {
   padding-left: 20px;
   font-size: 24px;
+  cursor: default;
 }
 
 .convs {

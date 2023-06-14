@@ -1,7 +1,7 @@
 import express from 'express'
-import auth from '../middleware/auth.js'
+import auth from '../middleware/auth'
 import * as yup from 'yup'
-import prisma from '../lib/prisma.js'
+import prisma from '../lib/prisma'
 
 const router = express.Router()
 

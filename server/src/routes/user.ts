@@ -1,9 +1,9 @@
 import express from 'express'
-import prisma from '../lib/prisma.js'
+import prisma from '../lib/prisma'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import * as yup from 'yup'
-import auth from '../middleware/auth.js'
+import auth from '../middleware/auth'
 
 const router = express.Router()
 

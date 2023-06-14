@@ -1,7 +1,7 @@
 import prisma from '../lib/prisma.js'
 import jwt from 'jsonwebtoken'
 
-export async function auth(token) {
+export async function auth(token: string) {
   try {
     if (token == null) throw new Error('no token found')
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
@@ -22,7 +22,7 @@ export async function auth(token) {
   }
 }
 
-export async function joinRooms(token, socket) {
+export async function joinRooms(token: string, socket) {
   try {
     if (token == null) throw new Error('no token found')
     const decoded = jwt.verify(token, process.env.JWT_SECRET)

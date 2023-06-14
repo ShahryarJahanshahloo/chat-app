@@ -1,22 +1,48 @@
 import { Server } from 'socket.io'
-import { auth, joinRooms } from '../socket/helpers.js'
-import events from '../socket/events.js'
-import prisma from './prisma.js'
+import { auth, joinRooms } from '../socket/helpers'
+import prisma from './prisma'
+import http from 'http'
 
-export default function initSocket(server) {
-  const io = new Server(server, {
+interface ServerToClientEvents {
+  MSG_FROM_SERVER: (msg: {}) => void
+  USER_CONVS: (
+    conversations: {
+      conversation: {
+        id: number
+        name: string
+      }
+    }[]
+  ) => void
+}
+
+interface ClientToServerEvents {
+  MSG_FROM_CLIENT: (msg: any) => Promise<void>
+}
+
+interface InterServerEvents {}
+
+interface SocketData {}
+
+export default function initSocket(server: http.Server) {
+  const io: Server<
+    ClientToServerEvents,
+    ServerToClientEvents,
+    InterServerEvents,
+    SocketData
+  > = new Server({
     cors: {
       origin: 'http://localhost:3000',
     },
   })
+  io.attach(server)
 
   io.on('connection', async socket => {
     const conversations = await joinRooms(socket.handshake.auth.token, socket)
     if (conversations) {
-      socket.emit(events.USER_CONVS, conversations)
+      socket.emit('USER_CONVS', conversations)
     }
 
-    socket.on(events.MSG_FROM_CLIENT, async msg => {
+    socket.on('MSG_FROM_CLIENT', async msg => {
       try {
         const user = await auth(socket.handshake.auth.token)
         if (!user) throw new Error('invalid token')
@@ -30,7 +56,7 @@ export default function initSocket(server) {
           },
         })
 
-        io.to(msg.conversationId).emit(events.MSG_FROM_SERVER, {
+        io.to(msg.conversationId).emit('MSG_FROM_SERVER', {
           text: msg.text,
           conversationId: msg.conversationId,
           createdAt: msg.createdAt,

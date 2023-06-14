@@ -1,7 +1,7 @@
 import express from 'express'
-import userRouter from './user.js'
-import conversationRouter from './conversation.js'
-import messageRouter from './message.js'
+import userRouter from './user'
+import conversationRouter from './conversation'
+import messageRouter from './message'
 
 const router = express.Router()
 
