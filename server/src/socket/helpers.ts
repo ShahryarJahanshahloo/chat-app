@@ -1,10 +1,15 @@
 import prisma from '../lib/prisma.js'
 import jwt from 'jsonwebtoken'
+import { Socket } from 'socket.io'
+
+interface JWTPayload {
+  id: string
+}
 
 export async function auth(token: string) {
   try {
     if (token == null) throw new Error('no token found')
-    const decoded = jwt.verify(token, process.env.JWT_SECRET)
+    const decoded = jwt.verify(token, process.env.JWT_SECRET) as JWTPayload
     const user = await prisma.user.findUniqueOrThrow({
       where: {
         id: +decoded.id,
@@ -22,10 +27,10 @@ export async function auth(token: string) {
   }
 }
 
-export async function joinRooms(token: string, socket) {
+export async function joinRooms(token: string, socket: Socket) {
   try {
     if (token == null) throw new Error('no token found')
-    const decoded = jwt.verify(token, process.env.JWT_SECRET)
+    const decoded = jwt.verify(token, process.env.JWT_SECRET) as JWTPayload
     const conversations = await prisma.usersOnConversations.findMany({
       where: {
         userId: +decoded.id,
@@ -40,7 +45,7 @@ export async function joinRooms(token: string, socket) {
       },
     })
     for (const conversation of conversations) {
-      socket.join(conversation.conversation.id)
+      socket.join(`${conversation.conversation.id}`)
     }
     return conversations
   } catch (e) {
