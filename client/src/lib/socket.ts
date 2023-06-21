@@ -1,15 +1,24 @@
 import io from 'socket.io-client'
 
-export const events = {
-  MSG_FROM_SERVER: 'MSG_FROM_SERVER',
-  MSG_FROM_CLIENT: 'MSG_FROM_CLIENT',
-  USER_CONVS: 'USER_CONVS',
+interface ServerToClientEvents {
+  MSG_FROM_SERVER: (msg: {}) => void
+  USER_CONVS: (
+    conversations: {
+      conversation: {
+        id: number
+        name: string
+      }
+    }[]
+  ) => void
+}
+
+interface ClientToServerEvents {
+  MSG_FROM_CLIENT: (msg: any) => Promise<void>
 }
 
 export const socket = io('http://localhost:3001', {
   reconnectionDelay: 1000,
   reconnection: true,
-  reconnectionAttemps: 10,
   transports: ['websocket'],
   agent: false,
   upgrade: false,

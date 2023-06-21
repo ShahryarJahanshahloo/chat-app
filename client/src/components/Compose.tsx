@@ -1,30 +1,29 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, FC, ChangeEvent, KeyboardEvent } from 'react'
 import { socket } from '../lib/socket'
 import s from './Compose.module.css'
 import { BsFillSendFill as SendButton } from 'react-icons/bs'
-import { events } from '../lib/socket'
 import useSelectedConversationStore from '../hooks/useSelectedConversationStore'
 
-const Compose = () => {
-  const [message, setMessage] = useState('')
-  const inputRef = useRef()
+const Compose: FC = () => {
+  const [message, setMessage] = useState<string>('')
+  const inputRef = useRef<HTMLTextAreaElement | null>(null)
   const conversation = useSelectedConversationStore(state => state.conversation)
 
   function clickHandler() {
-    socket.emit(events.MSG_FROM_CLIENT, {
+    socket.emit('MSG_FROM_CLIENT', {
       text: message,
-      conversationId: conversation.id,
+      conversationId: conversation?.id,
       createdAt: Date.now(),
     })
     setMessage('')
-    inputRef.current.focus()
+    inputRef.current?.focus()
   }
 
-  function onChangeHandler(e) {
+  function onChangeHandler(e: ChangeEvent<HTMLTextAreaElement>) {
     setMessage(e.target.value)
   }
 
-  function keyDownHandler(e) {
+  function keyDownHandler(e: KeyboardEvent<HTMLTextAreaElement>) {
     if (e.keyCode === 13 && e.ctrlKey) clickHandler()
   }
 

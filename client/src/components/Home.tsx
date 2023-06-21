@@ -1,8 +1,9 @@
 import MainSection from './MainSection'
 import Conversations from './Conversations'
 import s from './Home.module.css'
+import { FC } from 'react'
 
-const Home = () => {
+const Home: FC = () => {
   return (
     <div className={s.flex}>
       <Conversations />

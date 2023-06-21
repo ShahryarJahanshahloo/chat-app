@@ -2,8 +2,14 @@ import s from './Conversation.module.css'
 import useSelectedConversationStore from '../hooks/useSelectedConversationStore'
 import useOldMessagesStore from '../hooks/useOldMessgesStore'
 import request from '../lib/axios.js'
+import { FC } from 'react'
 
-const Conversation = ({ id, name }) => {
+type Props = {
+  id: number
+  name: string
+}
+
+const Conversation: FC<Props> = ({ id, name }) => {
   const conversation = useSelectedConversationStore(state => state.conversation)
   const oldMessages = useOldMessagesStore(state => state.messages)
   const setConversationMessages = useOldMessagesStore(
@@ -15,7 +21,7 @@ const Conversation = ({ id, name }) => {
   const isSelected = conversation == null ? false : conversation.id == id
 
   async function clickHandler() {
-    if (Object.keys(oldMessages).includes(id) == false) {
+    if (Object.keys(oldMessages!).includes(`${id}`) == false) {
       const res = await request.get('/message/conversation/' + id)
       setConversationMessages(id, res.data.messages)
     }

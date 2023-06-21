@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
-import { socket, events } from '../lib/socket'
+import { useState, useEffect, FC } from 'react'
+import { socket } from '../lib/socket'
 import s from './Conversations.module.css'
 import Conversation from './Conversation'
 import useNewMessagesStore from '../hooks/useNewMessagesStore'
@@ -7,8 +7,12 @@ import useOldMessagesStore from '../hooks/useOldMessgesStore'
 import { useNavigate } from 'react-router-dom'
 import request from '../lib/axios'
 
-const Conversations = () => {
-  const [conversations, setConversations] = useState()
+const Conversations: FC = () => {
+  const [conversations, setConversations] = useState<
+    {
+      conversation: { id: number; name: string }
+    }[]
+  >()
   const initNewConversations = useNewMessagesStore(
     state => state.initConversations
   )
@@ -18,16 +22,20 @@ const Conversations = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    function onConversations(convs) {
+    function onConversations(
+      convs: {
+        conversation: { id: number; name: string }
+      }[]
+    ) {
       initOldConversations(convs)
       initNewConversations(convs)
       setConversations(convs)
     }
 
-    socket.on(events.USER_CONVS, onConversations)
+    socket.on('USER_CONVS', onConversations)
 
     return () => {
-      socket.off(events.USER_CONVS)
+      socket.off('USER_CONVS')
     }
   }, [])
 

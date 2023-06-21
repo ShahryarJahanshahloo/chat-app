@@ -1,7 +1,19 @@
 import s from './Message.module.css'
 import useUserStore from '../hooks/useUserStore'
+import { FC } from 'react'
 
-const Message = ({ message }) => {
+type Props = {
+  message: {
+    text: string
+    conversationId: number
+    createdAt: string
+    authorId: number
+    authorName: string
+    authorColor: string
+  }
+}
+
+const Message: FC<Props> = ({ message }) => {
   const user = useUserStore(state => state.user)
   const sent = user == null ? false : message.authorId == user.id
   // const sent = false
