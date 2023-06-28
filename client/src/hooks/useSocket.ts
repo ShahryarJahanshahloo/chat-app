@@ -18,9 +18,11 @@ function useSocket() {
     socket.on('disconnect', onDisconnect)
 
     return () => {
-      socket.off('connect', onConnect)
-      socket.off('disconnect', onDisconnect)
-      socket.disconnect()
+      // if (isConnected) {
+      //   socket.off('connect', onConnect)
+      //   socket.off('disconnect', onDisconnect)
+      //   socket.disconnect()
+      // }
     }
   }, [])
 

@@ -13,6 +13,7 @@ interface ServerToClientEvents {
       }
     }[]
   ) => void
+  WELCOME: () => void
 }
 
 interface ClientToServerEvents {

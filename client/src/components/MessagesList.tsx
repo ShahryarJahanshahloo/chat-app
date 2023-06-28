@@ -17,15 +17,19 @@ const MessagesList: FC = () => {
 
   useEffect(() => {
     function onNewMessage(msg: any) {
+      console.log('new msg')
+
       const date = moment(msg.createdAt).format('HH:mm')
       msg.createdAt = date
       addNewMessage(msg)
     }
-
     socket.on('MSG_FROM_SERVER', onNewMessage)
-
+    socket.on('WELCOME', () => {
+      window.alert('a new user has joined!')
+    })
     return () => {
       socket.off('MSG_FROM_SERVER')
+      socket.off('WELCOME')
     }
   }, [])
 

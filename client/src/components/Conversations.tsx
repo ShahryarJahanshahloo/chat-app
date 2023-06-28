@@ -31,7 +31,6 @@ const Conversations: FC = () => {
       initNewConversations(convs)
       setConversations(convs)
     }
-
     socket.on('USER_CONVS', onConversations)
 
     return () => {
