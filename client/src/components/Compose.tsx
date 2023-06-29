@@ -2,7 +2,7 @@ import { useRef, useState, FC, ChangeEvent, KeyboardEvent } from 'react'
 import { socket } from '../lib/socket'
 import s from './Compose.module.css'
 import { BsFillSendFill as SendButton } from 'react-icons/bs'
-import useSelectedConversationStore from '../hooks/useSelectedConversationStore'
+import useSelectedConversationStore from '../store/useSelectedConversationStore'
 
 const Compose: FC = () => {
   const [message, setMessage] = useState<string>('')

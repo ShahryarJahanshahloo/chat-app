@@ -1,5 +1,5 @@
 import s from './Message.module.css'
-import useUserStore from '../hooks/useUserStore'
+import useUserStore from '../store/useUserStore'
 import { FC } from 'react'
 
 type Props = {

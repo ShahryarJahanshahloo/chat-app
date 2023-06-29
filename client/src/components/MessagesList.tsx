@@ -2,9 +2,9 @@ import { FC, useEffect } from 'react'
 import { socket } from '../lib/socket'
 import Message from './Message'
 import s from './MessagesList.module.css'
-import useNewMessagesStore from '../hooks/useNewMessagesStore'
-import useSelectedConversationStore from '../hooks/useSelectedConversationStore'
-import useOldMessagesStore from '../hooks/useOldMessgesStore'
+import useNewMessagesStore from '../store/useNewMessagesStore'
+import useSelectedConversationStore from '../store/useSelectedConversationStore'
+import useOldMessagesStore from '../store/useOldMessgesStore'
 import moment from 'moment'
 
 const MessagesList: FC = () => {

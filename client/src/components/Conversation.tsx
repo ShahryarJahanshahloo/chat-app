@@ -1,6 +1,6 @@
 import s from './Conversation.module.css'
-import useSelectedConversationStore from '../hooks/useSelectedConversationStore'
-import useOldMessagesStore from '../hooks/useOldMessgesStore'
+import useSelectedConversationStore from '../store/useSelectedConversationStore'
+import useOldMessagesStore from '../store/useOldMessgesStore'
 import request from '../lib/axios.js'
 import { FC } from 'react'
 

@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-type messageType = {
+type Message = {
   text: string
   conversationId: number
   createdAt: string
@@ -11,14 +11,14 @@ type messageType = {
 
 interface State {
   messages: {
-    [key: number]: messageType[]
+    [key: number]: Message[]
   } | null
   initConversations: (
     conversations: {
       conversation: { id: number; name: string }
     }[]
   ) => void
-  addNewMessage: (msg: messageType) => void
+  addNewMessage: (msg: Message) => void
 }
 
 const useNewMessagesStore = create<State>(set => ({
