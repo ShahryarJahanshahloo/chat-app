@@ -1,12 +1,12 @@
 import { create } from 'zustand'
 
 interface State {
-  conversation: { id: number } | null
+  conversation?: { id: number }
   selectConversation: (id: number) => void
 }
 
 const useSelectedConversationStore = create<State>(set => ({
-  conversation: null,
+  conversation: undefined,
   selectConversation: id => set(state => ({ conversation: { id: id } })),
 }))
 

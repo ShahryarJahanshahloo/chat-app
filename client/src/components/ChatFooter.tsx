@@ -1,6 +1,6 @@
 import { useRef, useState, FC, ChangeEvent, KeyboardEvent } from 'react'
 import { socket } from '../lib/socket'
-import s from './Compose.module.css'
+import s from './ChatFooter.module.css'
 import { BsFillSendFill as SendButton } from 'react-icons/bs'
 import useSelectedConversationStore from '../store/useSelectedConversationStore'
 
@@ -29,7 +29,7 @@ const Compose: FC = () => {
 
   return (
     <div className={s.container}>
-      {conversation == null ? null : (
+      {conversation && (
         <div className={s.inner}>
           <div className={s.compose}>
             <textarea

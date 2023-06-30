@@ -3,7 +3,7 @@ import { joinRooms } from '../utils/socket'
 import messageHandler from './messageHandler'
 
 interface ServerToClientEvents {
-  MSG_FROM_SERVER: (msg: {}) => void
+  MSG_FROM_SERVER: (msg: Message) => void
   USER_CONVS: (
     conversations: {
       conversation: {
@@ -15,7 +15,7 @@ interface ServerToClientEvents {
   WELCOME: () => void
 }
 interface ClientToServerEvents {
-  MSG_FROM_CLIENT: (msg: any, socket: SocketType) => Promise<void>
+  MSG_FROM_CLIENT: (msg: Message) => Promise<void>
 }
 interface InterServerEvents {}
 interface SocketData {}
@@ -45,4 +45,13 @@ export function initConnection(io: IOType) {
 
     socket.on('MSG_FROM_CLIENT', clientMessageHandler)
   })
+}
+
+export type Message = {
+  text: string
+  conversationId: number
+  createdAt: string
+  authorId: number
+  authorName: string
+  authorColor: string
 }

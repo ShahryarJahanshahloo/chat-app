@@ -1,4 +1,4 @@
-import s from './Message.module.css'
+import s from './ChatMessage.module.css'
 import useUserStore from '../store/useUserStore'
 import { FC } from 'react'
 

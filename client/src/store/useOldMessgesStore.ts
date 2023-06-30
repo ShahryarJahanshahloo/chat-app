@@ -1,32 +1,24 @@
 import { create } from 'zustand'
 import moment from 'moment'
-
-type messageType = {
-  text: string
-  conversationId: number
-  createdAt: string
-  authorId: number
-  authorName: string
-  authorColor: string
-}
+import { Message } from '../lib/socket'
 
 interface State {
   messages: {
-    [key: number]: messageType[]
-  } | null
+    [key: number]: Message[]
+  }
   initConversations: (
     conversations: {
       conversation: { id: number; name: string }
     }[]
   ) => void
-  setConversationMessages: (convId: number, messages: any) => void
+  setConversationMessages: (convId: number, messages: Message[]) => void
 }
 
 const useOldMessagesStore = create<State>(set => ({
-  messages: null,
+  messages: {},
   initConversations: conversations =>
     set(state => {
-      const initialMessages: { [key: number]: any[] } = {}
+      const initialMessages: { [key: number]: Message[] } = {}
       for (const conversation of conversations) {
         initialMessages[conversation.conversation.id] = []
       }
@@ -35,7 +27,7 @@ const useOldMessagesStore = create<State>(set => ({
   setConversationMessages: (convId, messages) =>
     set(state => {
       const prevMessages = { ...state.messages }
-      prevMessages[convId] = messages.map((item: any) => {
+      prevMessages[convId] = messages.map(item => {
         const date = moment(+item.createdAt).format('HH:mm')
         return { ...item, createdAt: date }
       })

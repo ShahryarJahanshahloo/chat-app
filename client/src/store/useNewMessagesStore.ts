@@ -1,18 +1,10 @@
 import { create } from 'zustand'
-
-type Message = {
-  text: string
-  conversationId: number
-  createdAt: string
-  authorId: number
-  authorName: string
-  authorColor: string
-}
+import { Message } from '../lib/socket'
 
 interface State {
   messages: {
     [key: number]: Message[]
-  } | null
+  }
   initConversations: (
     conversations: {
       conversation: { id: number; name: string }
@@ -22,10 +14,10 @@ interface State {
 }
 
 const useNewMessagesStore = create<State>(set => ({
-  messages: null,
+  messages: {},
   initConversations: conversations =>
     set(state => {
-      const initialMessages: { [key: number]: any[] } = {}
+      const initialMessages: { [key: number]: Message[] } = {}
       for (const conversation of conversations) {
         initialMessages[conversation.conversation.id] = []
       }
@@ -35,8 +27,8 @@ const useNewMessagesStore = create<State>(set => ({
     set(state => {
       const conversationId = msg.conversationId
       const prevMessages = { ...state.messages }
-      if (conversationId in Object.keys(state.messages!)) {
-        prevMessages[conversationId] = [...state.messages![conversationId], msg]
+      if (conversationId in Object.keys(state.messages)) {
+        prevMessages[conversationId] = [...state.messages[conversationId], msg]
         return { messages: prevMessages }
       } else {
         // return { messages: { ...state.messages, conversationId: [msg] } }

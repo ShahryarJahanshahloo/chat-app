@@ -21,10 +21,10 @@ const Conversation: FC<Props> = ({ id, name }) => {
   const isSelected = conversation == null ? false : conversation.id == id
 
   async function clickHandler() {
-    // if (Object.keys(oldMessages!).includes(`${id}`) == false) {
-    const res = await request.get('/message/conversation/' + id)
-    setConversationMessages(id, res.data.messages)
-    // }
+    if (Object.keys(oldMessages).includes(`${id}`) == false) {
+      const res = await request.get('/message/conversation/' + id)
+      setConversationMessages(id, res.data.messages)
+    }
     selectConversation(id)
   }
 

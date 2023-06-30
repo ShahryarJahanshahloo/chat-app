@@ -1,4 +1,4 @@
-import MainSection from './MainSection'
+import MainSection from './Chat'
 import Conversations from './Conversations'
 import s from './Home.module.css'
 import { FC } from 'react'

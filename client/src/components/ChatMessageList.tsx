@@ -1,7 +1,7 @@
 import { FC, useEffect } from 'react'
-import { socket } from '../lib/socket'
-import Message from './Message'
-import s from './MessagesList.module.css'
+import { socket, Message } from '../lib/socket'
+import ChatMessage from './ChatMessage'
+import s from './ChatMessageList.module.css'
 import useNewMessagesStore from '../store/useNewMessagesStore'
 import useSelectedConversationStore from '../store/useSelectedConversationStore'
 import useOldMessagesStore from '../store/useOldMessgesStore'
@@ -16,40 +16,31 @@ const MessagesList: FC = () => {
   const oldMessages = useOldMessagesStore(state => state.messages)
 
   useEffect(() => {
-    function onNewMessage(msg: any) {
-      console.log('new msg')
-
+    socket.on('MSG_FROM_SERVER', function (msg: Message) {
       const date = moment(msg.createdAt).format('HH:mm')
       msg.createdAt = date
       addNewMessage(msg)
-    }
-    socket.on('MSG_FROM_SERVER', onNewMessage)
-    socket.on('WELCOME', () => {
-      window.alert('a new user has joined!')
     })
     return () => {
       socket.off('MSG_FROM_SERVER')
-      socket.off('WELCOME')
     }
   }, [])
 
   return (
     <div className={s.container}>
       <div className={s.inner}>
-        {selectedConversation == null || Object.keys(oldMessages!).length == 0
-          ? null
-          : oldMessages![selectedConversation.id].map((value, index) => (
-              <div key={index}>
-                <Message message={value} />
-              </div>
-            ))}
-        {selectedConversation == null || Object.keys(newMessages!).length == 0
-          ? null
-          : newMessages![selectedConversation.id].map((value, index) => (
-              <div key={index}>
-                <Message message={value} />
-              </div>
-            ))}
+        {selectedConversation &&
+          oldMessages[selectedConversation.id].map((value, index) => (
+            <div key={index}>
+              <ChatMessage message={value} />
+            </div>
+          ))}
+        {selectedConversation &&
+          newMessages[selectedConversation.id].map((value, index) => (
+            <div key={index}>
+              <ChatMessage message={value} />
+            </div>
+          ))}
       </div>
     </div>
   )
