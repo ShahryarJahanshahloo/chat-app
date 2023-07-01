@@ -1,5 +1,5 @@
 import express from 'express'
-import auth from '../middleware/auth'
+import auth from '../middlewares/auth'
 import * as yup from 'yup'
 import prisma from '../lib/prisma'
 

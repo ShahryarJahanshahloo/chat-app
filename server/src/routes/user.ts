@@ -3,7 +3,7 @@ import prisma from '../lib/prisma'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import * as yup from 'yup'
-import auth from '../middleware/auth'
+import auth from '../middlewares/auth'
 
 const router = express.Router()
 

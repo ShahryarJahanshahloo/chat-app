@@ -1,6 +1,7 @@
 import { Server, Socket } from 'socket.io'
-import { joinRooms } from '../utils/socket'
-import messageHandler from './messageHandler'
+import registerMessageHandlers from './listeners/messageHandler'
+import auth from './middlewares/auth'
+import joinRooms from './middlewares/joinRooms'
 
 interface ServerToClientEvents {
   MSG_FROM_SERVER: (msg: Message) => void
@@ -18,7 +19,13 @@ interface ClientToServerEvents {
   MSG_FROM_CLIENT: (msg: Message) => Promise<void>
 }
 interface InterServerEvents {}
-interface SocketData {}
+interface SocketData {
+  user?: {
+    id: number
+    name: string
+    color: string
+  }
+}
 
 export type IOType = Server<
   ClientToServerEvents,
@@ -35,22 +42,18 @@ export type SocketType = Socket<
 >
 
 export function initConnection(io: IOType) {
+  io.use(auth)
+  io.use(joinRooms)
+
   io.on('connection', async (socket: SocketType) => {
-    const { clientMessageHandler } = messageHandler(io)
-
-    const conversations = await joinRooms(socket.handshake.auth.token, socket)
-    if (conversations) {
-      socket.emit('USER_CONVS', conversations)
-    }
-
-    socket.on('MSG_FROM_CLIENT', clientMessageHandler)
+    registerMessageHandlers(io, socket)
   })
 }
 
 export type Message = {
   text: string
   conversationId: number
-  createdAt: string
+  createdAt: number | bigint
   authorId: number
   authorName: string
   authorColor: string

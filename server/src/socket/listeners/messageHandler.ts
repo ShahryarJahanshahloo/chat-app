@@ -1,13 +1,11 @@
-import { IOType } from './index'
-import { auth } from '../utils/socket'
-import prisma from '../lib/prisma'
-import { Message } from './index'
+import { IOType, SocketType } from '../index'
+import prisma from '../../lib/prisma'
+import { Message } from '../index'
 
-export default (io: IOType) => {
+export default (io: IOType, socket: SocketType) => {
   async function clientMessageHandler(msg: Message) {
     try {
-      // const user = await auth(socket.handshake.auth.token)
-      io.sockets.
+      const user = socket.data.user
       if (!user) throw new Error('invalid token')
 
       const message = await prisma.message.create({
@@ -19,7 +17,7 @@ export default (io: IOType) => {
         },
       })
 
-      io.to(msg.conversationId).emit('MSG_FROM_SERVER', {
+      io.to(`${msg.conversationId}`).emit('MSG_FROM_SERVER', {
         text: msg.text,
         conversationId: msg.conversationId,
         createdAt: msg.createdAt,
@@ -33,7 +31,5 @@ export default (io: IOType) => {
     }
   }
 
-  return {
-    clientMessageHandler,
-  }
+  socket.on('MSG_FROM_CLIENT', clientMessageHandler)
 }
