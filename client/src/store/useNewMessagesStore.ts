@@ -27,14 +27,8 @@ const useNewMessagesStore = create<State>(set => ({
     set(state => {
       const conversationId = msg.conversationId
       const prevMessages = { ...state.messages }
-      if (conversationId in Object.keys(state.messages)) {
-        prevMessages[conversationId] = [...state.messages[conversationId], msg]
-        return { messages: prevMessages }
-      } else {
-        // return { messages: { ...state.messages, conversationId: [msg] } }
-        prevMessages[conversationId] = [msg]
-        return { messages: prevMessages }
-      }
+      prevMessages[conversationId].push(msg)
+      return { messages: prevMessages }
     }),
 }))
 

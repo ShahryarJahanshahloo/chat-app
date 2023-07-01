@@ -8,7 +8,8 @@ export default (io: IOType, socket: SocketType) => {
       const user = socket.data.user
       if (!user) throw new Error('invalid token')
 
-      const message = await prisma.message.create({
+      console.log('THIS IS :) ' + msg.createdAt)
+      await prisma.message.create({
         data: {
           text: msg.text,
           authorId: user.id,

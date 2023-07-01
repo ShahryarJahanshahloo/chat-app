@@ -3,7 +3,6 @@ import { socket } from '../lib/socket'
 import s from './Sidebar.module.css'
 import Conversation from './Conversation'
 import useNewMessagesStore from '../store/useNewMessagesStore'
-import useOldMessagesStore from '../store/useOldMessgesStore'
 import { useNavigate } from 'react-router-dom'
 import request from '../lib/axios'
 
@@ -16,9 +15,6 @@ const Sidebar: FC = () => {
   const initNewConversations = useNewMessagesStore(
     state => state.initConversations
   )
-  const initOldConversations = useOldMessagesStore(
-    state => state.initConversations
-  )
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -27,7 +23,6 @@ const Sidebar: FC = () => {
         conversation: { id: number; name: string }
       }[]
     ) {
-      initOldConversations(convs)
       initNewConversations(convs)
       setConversations(convs)
     }

@@ -14,7 +14,7 @@ const ChatFooter: FC = () => {
     socket.emit('MSG_FROM_CLIENT', {
       text: message,
       conversationId: conversation.id,
-      createdAt: `${Date.now()}`,
+      createdAt: new Date(),
     })
     setMessage('')
     inputRef.current?.focus()
