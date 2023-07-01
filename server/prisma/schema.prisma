@@ -1,10 +1,6 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider      = "prisma-client-js"
   binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
-  // "debian-openssl-1.1.x", "linux-musl",
 }
 
 datasource db {
@@ -24,9 +20,9 @@ model User {
 }
 
 model UsersOnConversations {
-  user           User         @relation(fields: [userId], references: [id])
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId         Int
-  conversation   Conversation @relation(fields: [conversationId], references: [id])
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
   conversationId Int
 
   @@id([userId, conversationId])
@@ -47,7 +43,7 @@ model Message {
   seen           Boolean      @default(false)
   author         User         @relation(fields: [authorId], references: [id])
   authorId       Int
-  conversation   Conversation @relation(fields: [conversationId], references: [id])
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
   conversationId Int
-  createdAt      BigInt
+  createdAt      DateTime     @default(now())
 }

@@ -1,7 +1,7 @@
 import { FC } from 'react'
 
-const Toolbar: FC = () => {
+const ChatToolbar: FC = () => {
   return <div></div>
 }
 
-export default Toolbar
+export default ChatToolbar

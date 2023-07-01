@@ -1,9 +1,9 @@
 import { IOType, SocketType } from '../index'
 import prisma from '../../lib/prisma'
-import { Message } from '../index'
+import { ClientMessage } from '../index'
 
 export default (io: IOType, socket: SocketType) => {
-  async function clientMessageHandler(msg: Message) {
+  async function clientMessageHandler(msg: ClientMessage) {
     try {
       const user = socket.data.user
       if (!user) throw new Error('invalid token')

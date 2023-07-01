@@ -1,5 +1,5 @@
 import { FC, useEffect } from 'react'
-import { socket, Message } from '../lib/socket'
+import { socket, ServerMessage } from '../lib/socket'
 import ChatMessage from './ChatMessage'
 import s from './ChatMessageList.module.css'
 import useNewMessagesStore from '../store/useNewMessagesStore'
@@ -7,7 +7,7 @@ import useSelectedConversationStore from '../store/useSelectedConversationStore'
 import useOldMessagesStore from '../store/useOldMessgesStore'
 import moment from 'moment'
 
-const MessagesList: FC = () => {
+const ChatMessageList: FC = () => {
   const newMessages = useNewMessagesStore(state => state.messages)
   const addNewMessage = useNewMessagesStore(state => state.addNewMessage)
   const selectedConversation = useSelectedConversationStore(
@@ -16,7 +16,7 @@ const MessagesList: FC = () => {
   const oldMessages = useOldMessagesStore(state => state.messages)
 
   useEffect(() => {
-    socket.on('MSG_FROM_SERVER', function (msg: Message) {
+    socket.on('MSG_FROM_SERVER', function (msg: ServerMessage) {
       const date = moment(msg.createdAt).format('HH:mm')
       msg.createdAt = date
       addNewMessage(msg)
@@ -46,4 +46,4 @@ const MessagesList: FC = () => {
   )
 }
 
-export default MessagesList
+export default ChatMessageList

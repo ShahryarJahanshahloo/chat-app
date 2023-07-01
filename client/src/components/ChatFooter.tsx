@@ -4,16 +4,17 @@ import s from './ChatFooter.module.css'
 import { BsFillSendFill as SendButton } from 'react-icons/bs'
 import useSelectedConversationStore from '../store/useSelectedConversationStore'
 
-const Compose: FC = () => {
+const ChatFooter: FC = () => {
   const [message, setMessage] = useState<string>('')
   const inputRef = useRef<HTMLTextAreaElement | null>(null)
   const conversation = useSelectedConversationStore(state => state.conversation)
 
   function clickHandler() {
+    if (!conversation) return
     socket.emit('MSG_FROM_CLIENT', {
       text: message,
-      conversationId: conversation?.id,
-      createdAt: Date.now(),
+      conversationId: conversation.id,
+      createdAt: `${Date.now()}`,
     })
     setMessage('')
     inputRef.current?.focus()
@@ -50,4 +51,4 @@ const Compose: FC = () => {
   )
 }
 
-export default Compose
+export default ChatFooter

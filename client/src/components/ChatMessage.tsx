@@ -1,19 +1,13 @@
 import s from './ChatMessage.module.css'
 import useUserStore from '../store/useUserStore'
+import { ServerMessage } from '../lib/socket'
 import { FC } from 'react'
 
 type Props = {
-  message: {
-    text: string
-    conversationId: number
-    createdAt: string
-    authorId: number
-    authorName: string
-    authorColor: string
-  }
+  message: ServerMessage
 }
 
-const Message: FC<Props> = ({ message }) => {
+const ChatMessage: FC<Props> = ({ message }) => {
   const user = useUserStore(state => state.user)
   const sent = user == null ? false : message.authorId == user.id
   // const sent = false
@@ -25,7 +19,7 @@ const Message: FC<Props> = ({ message }) => {
         <div className={sent ? s.authorSent : s.author}>
           <div className={s.authorInner}>
             <div className={s.avatar}></div>
-            <div className={s.date}>{message.createdAt}</div>
+            <div className={s.date}>{message.createdAt.toString()}</div>
           </div>
         </div>
         <div className={sent ? s.textWrapperSent : s.textWrapper}>
@@ -39,4 +33,4 @@ const Message: FC<Props> = ({ message }) => {
   )
 }
 
-export default Message
+export default ChatMessage

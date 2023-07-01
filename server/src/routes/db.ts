@@ -5,9 +5,6 @@ const router = express.Router()
 
 router.get('/tables', async (req, res) => {
   try {
-    BigInt.prototype.toJSON = function () {
-      return this.toString()
-    }
     const conversations = await prisma.conversation.findMany()
     const messages = await prisma.message.findMany()
     const users = await prisma.user.findMany()

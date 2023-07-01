@@ -1,24 +1,24 @@
 import { create } from 'zustand'
 import moment from 'moment'
-import { Message } from '../lib/socket'
+import { ServerMessage } from '../lib/socket'
 
 interface State {
   messages: {
-    [key: number]: Message[]
+    [key: number]: ServerMessage[]
   }
   initConversations: (
     conversations: {
       conversation: { id: number; name: string }
     }[]
   ) => void
-  setConversationMessages: (convId: number, messages: Message[]) => void
+  setConversationMessages: (convId: number, messages: ServerMessage[]) => void
 }
 
 const useOldMessagesStore = create<State>(set => ({
   messages: {},
   initConversations: conversations =>
     set(state => {
-      const initialMessages: { [key: number]: Message[] } = {}
+      const initialMessages: { [key: number]: ServerMessage[] } = {}
       for (const conversation of conversations) {
         initialMessages[conversation.conversation.id] = []
       }

@@ -1,7 +1,7 @@
 import io, { Socket } from 'socket.io-client'
 
 interface ServerToClientEvents {
-  MSG_FROM_SERVER: (msg: Message) => void
+  MSG_FROM_SERVER: (msg: ServerMessage) => void
   USER_CONVS: (
     conversations: {
       conversation: {
@@ -13,7 +13,7 @@ interface ServerToClientEvents {
   WELCOME: () => void
 }
 interface ClientToServerEvents {
-  MSG_FROM_CLIENT: (msg: Message) => Promise<void>
+  MSG_FROM_CLIENT: (msg: ClientMessage) => Promise<void>
 }
 
 export const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
@@ -30,11 +30,17 @@ export const socket: Socket<ServerToClientEvents, ClientToServerEvents> = io(
   }
 )
 
-export type Message = {
+export type ServerMessage = {
   text: string
   conversationId: number
-  createdAt: number | bigint
+  createdAt: string | Date
   authorId: number
   authorName: string
   authorColor: string
+}
+
+export type ClientMessage = {
+  text: string
+  conversationId: number
+  createdAt: string | Date
 }

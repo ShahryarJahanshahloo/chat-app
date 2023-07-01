@@ -1,11 +1,11 @@
-import Toolbar from './ChatToolbar'
-import MessagesList from './ChatMessageList'
-import Compose from './ChatFooter'
+import ChatToolbar from './ChatToolbar'
+import ChatMessageList from './ChatMessageList'
+import ChatFooter from './ChatFooter'
 import s from './Chat.module.css'
 import { FC } from 'react'
 import useSelectedConversationStore from '../store/useSelectedConversationStore'
 
-const MainSection: FC = () => {
+const Chat: FC = () => {
   const selectedConversation = useSelectedConversationStore(
     state => state.conversation
   )
@@ -14,13 +14,13 @@ const MainSection: FC = () => {
     <div className={s.main}>
       {selectedConversation && (
         <>
-          <Toolbar />
-          <MessagesList />
-          <Compose />
+          <ChatToolbar />
+          <ChatMessageList />
+          <ChatFooter />
         </>
       )}
     </div>
   )
 }
 
-export default MainSection
+export default Chat

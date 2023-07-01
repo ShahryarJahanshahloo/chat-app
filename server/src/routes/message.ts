@@ -5,9 +5,6 @@ const router = express.Router()
 
 router.get('/conversation/:id', async (req, res) => {
   try {
-    BigInt.prototype.toJSON = function () {
-      return this.toString()
-    }
     const messages = await prisma.message.findMany({
       where: {
         conversationId: +req.params.id,

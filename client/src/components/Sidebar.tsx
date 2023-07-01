@@ -1,13 +1,13 @@
 import { useState, useEffect, FC } from 'react'
 import { socket } from '../lib/socket'
-import s from './Conversations.module.css'
+import s from './Sidebar.module.css'
 import Conversation from './Conversation'
 import useNewMessagesStore from '../store/useNewMessagesStore'
 import useOldMessagesStore from '../store/useOldMessgesStore'
 import { useNavigate } from 'react-router-dom'
 import request from '../lib/axios'
 
-const Conversations: FC = () => {
+const Sidebar: FC = () => {
   const [conversations, setConversations] = useState<
     {
       conversation: { id: number; name: string }
@@ -91,4 +91,4 @@ const Conversations: FC = () => {
   )
 }
 
-export default Conversations
+export default Sidebar

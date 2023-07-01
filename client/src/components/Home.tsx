@@ -1,13 +1,13 @@
-import MainSection from './Chat'
-import Conversations from './Conversations'
+import Chat from './Chat'
+import Sidebar from './Sidebar'
 import s from './Home.module.css'
 import { FC } from 'react'
 
 const Home: FC = () => {
   return (
     <div className={s.flex}>
-      <Conversations />
-      <MainSection />
+      <Sidebar />
+      <Chat />
     </div>
   )
 }
