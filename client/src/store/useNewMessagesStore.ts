@@ -5,11 +5,7 @@ interface State {
   messages: {
     [key: number]: ServerMessage[]
   }
-  initConversations: (
-    conversations: {
-      conversation: { id: number; name: string }
-    }[]
-  ) => void
+  initConversations: (conversation: { id: number; name: string }[]) => void
   addNewMessage: (msg: ServerMessage) => void
 }
 
@@ -19,7 +15,7 @@ const useNewMessagesStore = create<State>(set => ({
     set(state => {
       const initialMessages: { [key: number]: ServerMessage[] } = {}
       for (const conversation of conversations) {
-        initialMessages[conversation.conversation.id] = []
+        initialMessages[conversation.id] = []
       }
       return { messages: initialMessages }
     }),

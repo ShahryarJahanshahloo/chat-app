@@ -5,24 +5,18 @@ import Conversation from './Conversation'
 import useNewMessagesStore from '../store/useNewMessagesStore'
 import { useNavigate } from 'react-router-dom'
 import request from '../lib/axios'
+import useConversations from '../store/useConversations'
 
 const Sidebar: FC = () => {
-  const [conversations, setConversations] = useState<
-    {
-      conversation: { id: number; name: string }
-    }[]
-  >()
+  const conversations = useConversations(state => state.conversations)
+  const setConversations = useConversations(state => state.setConversations)
   const initNewConversations = useNewMessagesStore(
     state => state.initConversations
   )
   const navigate = useNavigate()
 
   useEffect(() => {
-    function onConversations(
-      convs: {
-        conversation: { id: number; name: string }
-      }[]
-    ) {
+    function onConversations(convs: { id: number; name: string }[]) {
       initNewConversations(convs)
       setConversations(convs)
     }
@@ -62,11 +56,8 @@ const Sidebar: FC = () => {
           {conversations
             ? conversations.map(item => {
                 return (
-                  <div key={item.conversation.id}>
-                    <Conversation
-                      id={item.conversation.id}
-                      name={item.conversation.name}
-                    />
+                  <div key={item.id}>
+                    <Conversation id={item.id} name={item.name} />
                   </div>
                 )
               })

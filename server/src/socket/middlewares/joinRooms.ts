@@ -1,12 +1,8 @@
-import { Socket } from 'socket.io'
 import prisma from '../../lib/prisma.js'
-
-interface JWTPayload {
-  id: string
-}
+import { SocketType } from '../index.js'
 
 export default function joinRooms(
-  socket: Socket,
+  socket: SocketType,
   next: (err?: Error) => void
 ): void {
   if (!socket.data.user) return next()
@@ -29,7 +25,13 @@ export default function joinRooms(
         socket.join(`${conversation.conversation.id}`)
       }
       if (conversations) {
-        socket.emit('USER_CONVS', conversations)
+        const normalizedConvs = conversations.map(item => {
+          return {
+            id: item.conversation.id,
+            name: item.conversation.name,
+          }
+        })
+        socket.emit('USER_CONVS', normalizedConvs)
       }
       next()
     })

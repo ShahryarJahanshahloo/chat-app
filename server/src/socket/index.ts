@@ -7,10 +7,8 @@ interface ServerToClientEvents {
   MSG_FROM_SERVER: (msg: ServerMessage) => void
   USER_CONVS: (
     conversations: {
-      conversation: {
-        id: number
-        name: string
-      }
+      id: number
+      name: string
     }[]
   ) => void
   WELCOME: () => void
@@ -23,7 +21,7 @@ interface SocketData {
   user?: {
     id: number
     name: string
-    color: string
+    color: number | null
   }
 }
 

@@ -25,7 +25,7 @@ const Conversation: FC<Props> = ({ id, name }) => {
       const res = await request.get('/message/conversation/' + id)
       setConversationMessages(id, res.data.messages)
     }
-    selectConversation(id)
+    selectConversation({ id, name })
   }
 
   return (

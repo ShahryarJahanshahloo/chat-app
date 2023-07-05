@@ -1,13 +1,14 @@
 import { create } from 'zustand'
 
 interface State {
-  conversation?: { id: number }
-  selectConversation: (id: number) => void
+  conversation?: { id: number; name: string }
+  selectConversation: (conv: { id: number; name: string }) => void
 }
 
 const useSelectedConversationStore = create<State>(set => ({
   conversation: undefined,
-  selectConversation: id => set(state => ({ conversation: { id: id } })),
+  selectConversation: conv =>
+    set(state => ({ conversation: { id: conv.id, name: conv.name } })),
 }))
 
 export default useSelectedConversationStore

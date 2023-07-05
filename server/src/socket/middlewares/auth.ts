@@ -1,4 +1,4 @@
-import { Socket } from 'socket.io'
+import { SocketType } from '../index.js'
 import prisma from '../../lib/prisma.js'
 import jwt from 'jsonwebtoken'
 
@@ -7,7 +7,7 @@ interface JWTPayload {
 }
 
 export default function auth(
-  socket: Socket,
+  socket: SocketType,
   next: (err?: Error) => void
 ): void {
   const token = socket.handshake.auth.token
