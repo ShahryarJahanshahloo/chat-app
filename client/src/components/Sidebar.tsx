@@ -1,11 +1,12 @@
-import { useState, useEffect, FC } from 'react'
+import { useEffect, FC } from 'react'
 import { socket } from '../lib/socket'
 import s from './Sidebar.module.css'
 import Conversation from './Conversation'
 import useNewMessagesStore from '../store/useNewMessagesStore'
-import { useNavigate } from 'react-router-dom'
-import request from '../lib/axios'
 import useConversations from '../store/useConversations'
+import ConversationModal from './ConversationModal'
+import LogoutModal from './LogoutModal'
+import useModal from '../hooks/useModal'
 
 const Sidebar: FC = () => {
   const conversations = useConversations(state => state.conversations)
@@ -13,7 +14,8 @@ const Sidebar: FC = () => {
   const initNewConversations = useNewMessagesStore(
     state => state.initConversations
   )
-  const navigate = useNavigate()
+  const [closeConvModal, openConvModal, isConvModalOpen] = useModal()
+  const [closeLogoutModal, openLogoutModal, isLogoutModalOpen] = useModal()
 
   useEffect(() => {
     function onConversations(convs: { id: number; name: string }[]) {
@@ -27,27 +29,10 @@ const Sidebar: FC = () => {
     }
   }, [])
 
-  const logoutHandler = () => {
-    const res = confirm('Are you sure?')
-    if (res) {
-      localStorage.removeItem('jwt')
-      navigate('/login')
-    }
-  }
-
-  const newHandler = async () => {
-    const convName = prompt('Choose a name')
-    const res = await request.post('/conversation', { name: convName })
-    if (res.status == 201) {
-      alert('Conversation created successfully')
-      navigate(0)
-    } else {
-      alert('An error occured')
-    }
-  }
-
   return (
     <div className={s.main}>
+      <ConversationModal showModal={isConvModalOpen} onClick={closeConvModal} />
+      <LogoutModal showModal={isLogoutModalOpen} onClick={closeLogoutModal} />
       <div className={s.inner}>
         <div className={s.title}>
           <div className={s.text}>Conversations</div>
@@ -64,11 +49,11 @@ const Sidebar: FC = () => {
             : null}
         </div>
         <div className={s.bottom}>
-          <div className={s.new} onClick={newHandler}>
+          <div className={s.new} onClick={openConvModal}>
             <div className={s.plus}>+</div>
             <div className={s.label}>New Conversation</div>
           </div>
-          <div className={s.logout} onClick={logoutHandler}>
+          <div className={s.logout} onClick={openLogoutModal}>
             <div className={s.label}>Logout</div>
           </div>
         </div>

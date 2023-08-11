@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosError, AxiosResponse } from 'axios'
 
 const baseURL = 'http://localhost:3001/'
 
@@ -14,7 +14,7 @@ request.interceptors.response.use(
   },
   error => {
     console.log(error.response)
-    return Promise.reject(error)
+    return Promise.reject(error as AxiosError)
   }
 )
 
@@ -31,5 +31,7 @@ request.interceptors.request.use(
   },
   error => Promise.reject(error)
 )
+
+export type RequestReturnType<T> = Promise<AxiosResponse<T>>
 
 export default request
