@@ -1,14 +1,13 @@
-import React, { MouseEventHandler } from 'react'
+import React from 'react'
 import s from './Modal.module.css'
-import { AiOutlineClose as CloseIcon } from 'react-icons/ai'
 
 type Props = {
   children: React.ReactNode
-  showModal: boolean
-  onClick: MouseEventHandler
+  isOpen: boolean
+  close: () => void
 }
 
-const Modal: React.FC<Props> = ({ children, showModal, onClick }) => {
+const Modal: React.FC<Props> = ({ children, isOpen, close }) => {
   const handleClick = (e: any) => {
     e.stopPropagation()
   }
@@ -16,17 +15,14 @@ const Modal: React.FC<Props> = ({ children, showModal, onClick }) => {
   return (
     <div
       className={`${s.container} ${
-        showModal ? s.containerVisible : s.containerHidden
+        isOpen ? s.containerVisible : s.containerHidden
       }`}
-      onClick={onClick}
+      onClick={close}
     >
       <div
-        className={`${s.inner} ${showModal ? s.innerVisible : s.innerHidden}`}
+        className={`${s.inner} ${isOpen ? s.innerVisible : s.innerHidden}`}
         onClick={e => handleClick(e)}
       >
-        <button className={s.close} onClick={onClick}>
-          <CloseIcon />
-        </button>
         {children}
       </div>
     </div>

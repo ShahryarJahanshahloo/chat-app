@@ -7,6 +7,8 @@ import useConversations from '../store/useConversations'
 import ConversationModal from './ConversationModal'
 import LogoutModal from './LogoutModal'
 import useModal from '../hooks/useModal'
+import SidebarHeader from './SidebarHeader'
+import useChatStatusStore from '../store/useChatStatus'
 
 const Sidebar: FC = () => {
   const conversations = useConversations(state => state.conversations)
@@ -16,6 +18,7 @@ const Sidebar: FC = () => {
   )
   const [closeConvModal, openConvModal, isConvModalOpen] = useModal()
   const [closeLogoutModal, openLogoutModal, isLogoutModalOpen] = useModal()
+  const open = useChatStatusStore(state => state.open)
 
   useEffect(() => {
     function onConversations(convs: { id: number; name: string }[]) {
@@ -31,12 +34,11 @@ const Sidebar: FC = () => {
 
   return (
     <div className={s.main}>
-      <ConversationModal showModal={isConvModalOpen} onClick={closeConvModal} />
-      <LogoutModal showModal={isLogoutModalOpen} onClick={closeLogoutModal} />
+      <ConversationModal isOpen={isConvModalOpen} close={closeConvModal} />
+      <LogoutModal isOpen={isLogoutModalOpen} close={closeLogoutModal} />
       <div className={s.inner}>
-        <div className={s.title}>
-          <div className={s.text}>Conversations</div>
-        </div>
+        <SidebarHeader />
+        <button onClick={open}>click</button>
         <div className={s.convs}>
           {conversations
             ? conversations.map(item => {
@@ -47,15 +49,6 @@ const Sidebar: FC = () => {
                 )
               })
             : null}
-        </div>
-        <div className={s.bottom}>
-          <div className={s.new} onClick={openConvModal}>
-            <div className={s.plus}>+</div>
-            <div className={s.label}>New Conversation</div>
-          </div>
-          <div className={s.logout} onClick={openLogoutModal}>
-            <div className={s.label}>Logout</div>
-          </div>
         </div>
       </div>
     </div>

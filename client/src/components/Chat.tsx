@@ -4,14 +4,20 @@ import ChatFooter from './ChatFooter'
 import s from './Chat.module.css'
 import { FC } from 'react'
 import useSelectedConversationStore from '../store/useSelectedConversationStore'
+import useChatStatusStore from '../store/useChatStatus'
 
 const Chat: FC = () => {
   const selectedConversation = useSelectedConversationStore(
     state => state.conversation
   )
+  const isChatPanelOpen = useChatStatusStore(state => state.isOpen)
+  const close = useChatStatusStore(state => state.close)
 
   return (
-    <div className={s.main}>
+    <div
+      className={`${s.main} ${isChatPanelOpen ? s.mainVisible : s.mainHidden}`}
+    >
+      <button onClick={close}>close</button>
       {selectedConversation && (
         <>
           <ChatToolbar />
