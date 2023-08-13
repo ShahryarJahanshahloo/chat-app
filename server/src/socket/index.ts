@@ -21,7 +21,7 @@ interface SocketData {
   user?: {
     id: number
     name: string
-    color: number | null
+    color: string
   }
 }
 

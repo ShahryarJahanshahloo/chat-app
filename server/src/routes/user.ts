@@ -13,7 +13,7 @@ router.post('/', async (req, res) => {
     email: yup.string().email(),
     password: yup.string(),
     name: yup.string().required(),
-    color: yup.number(),
+    color: yup.string(),
   })
 
   try {
@@ -23,6 +23,7 @@ router.post('/', async (req, res) => {
     const user = await prisma.user.create({ data: userInfo })
     res.status(201).send(user)
   } catch (error) {
+    console.log(error)
     res.status(400).send()
   }
 })

@@ -1,0 +1,53 @@
+@import '../vars.css';
+
+.container {
+  height: 100vh;
+  width: 100%;
+}
+
+.header {
+  width: 100%;
+  height: 56px;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.close {
+  padding: 0 20px 0 0;
+}
+
+.searchBarWrapper {
+  flex: 1 0 0;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.searchBar {
+  width: 100%;
+  height: 40px;
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.input {
+  flex: 1 0 0;
+  height: 100%;
+  border-radius: 100px;
+  padding: 0 12px;
+}
+
+.magnifier {
+  height: 40px;
+  width: 40px;
+  background: transparent;
+  border-left: 1px solid var(--color-border);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-right: 6px;
+}

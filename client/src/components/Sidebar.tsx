@@ -8,7 +8,7 @@ import ConversationModal from './ConversationModal'
 import LogoutModal from './LogoutModal'
 import useModal from '../hooks/useModal'
 import SidebarHeader from './SidebarHeader'
-import useChatStatusStore from '../store/useChatStatus'
+import SidebarAlter from './SidebarAlter'
 
 const Sidebar: FC = () => {
   const conversations = useConversations(state => state.conversations)
@@ -18,7 +18,6 @@ const Sidebar: FC = () => {
   )
   const [closeConvModal, openConvModal, isConvModalOpen] = useModal()
   const [closeLogoutModal, openLogoutModal, isLogoutModalOpen] = useModal()
-  const open = useChatStatusStore(state => state.open)
 
   useEffect(() => {
     function onConversations(convs: { id: number; name: string }[]) {
@@ -38,7 +37,6 @@ const Sidebar: FC = () => {
       <LogoutModal isOpen={isLogoutModalOpen} close={closeLogoutModal} />
       <div className={s.inner}>
         <SidebarHeader />
-        <button onClick={open}>click</button>
         <div className={s.convs}>
           {conversations
             ? conversations.map(item => {
@@ -50,6 +48,7 @@ const Sidebar: FC = () => {
               })
             : null}
         </div>
+        {conversations && conversations.length < 8 ? <SidebarAlter /> : null}
       </div>
     </div>
   )

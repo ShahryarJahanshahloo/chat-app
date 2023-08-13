@@ -43,7 +43,7 @@ const ChatFooter: FC = () => {
             />
           </div>
           <div className={s.send} onClick={clickHandler}>
-            <SendButton style={{ color: 'white', fontSize: '20px' }} />
+            <SendButton style={{ color: 'white', fontSize: '18px' }} />
           </div>
         </div>
       )}

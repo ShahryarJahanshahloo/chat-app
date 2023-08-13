@@ -11,13 +11,11 @@ const Chat: FC = () => {
     state => state.conversation
   )
   const isChatPanelOpen = useChatStatusStore(state => state.isOpen)
-  const close = useChatStatusStore(state => state.close)
 
   return (
     <div
       className={`${s.main} ${isChatPanelOpen ? s.mainVisible : s.mainHidden}`}
     >
-      <button onClick={close}>close</button>
       {selectedConversation && (
         <>
           <ChatToolbar />

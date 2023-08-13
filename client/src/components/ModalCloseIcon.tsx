@@ -12,7 +12,7 @@ const ModalCloseIcon: React.FC<Props> = ({ onClick }) => {
       <CloseIcon
         style={{
           fontSize: '24px',
-          color: 'silver',
+          color: 'var(--color-icon)',
         }}
       />
     </div>

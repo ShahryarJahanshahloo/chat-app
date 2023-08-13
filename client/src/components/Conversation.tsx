@@ -3,6 +3,7 @@ import useSelectedConversationStore from '../store/useSelectedConversationStore'
 import useOldMessagesStore from '../store/useOldMessgesStore'
 import request from '../lib/axios.js'
 import { FC } from 'react'
+import useChatStatusStore from '../store/useChatStatus'
 
 type Props = {
   id: number
@@ -12,6 +13,7 @@ type Props = {
 const Conversation: FC<Props> = ({ id, name }) => {
   const conversation = useSelectedConversationStore(state => state.conversation)
   const oldMessages = useOldMessagesStore(state => state.messages)
+  const openChatPanel = useChatStatusStore(state => state.open)
   const setConversationMessages = useOldMessagesStore(
     state => state.setConversationMessages
   )
@@ -26,6 +28,7 @@ const Conversation: FC<Props> = ({ id, name }) => {
       setConversationMessages(id, res.data.messages)
     }
     selectConversation({ id, name })
+    openChatPanel()
   }
 
   return (

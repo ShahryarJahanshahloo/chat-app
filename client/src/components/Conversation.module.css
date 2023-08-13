@@ -4,17 +4,11 @@
   cursor: pointer;
   transition: padding 0.3s ease;
 }
-.main:hover {
-  padding-left: 12px;
-  transition: padding 0.3s ease;
-}
 
 .mainSelected {
   width: 100%;
   height: 80px;
   cursor: pointer;
-  background-color: rgb(67, 187, 141);
-  color: white;
 }
 
 .inner {
@@ -34,4 +28,25 @@
 .nameSelected {
   font-size: 18px;
   padding-left: 20px;
+  color: rgb(75, 75, 75);
+}
+
+@media screen and (min-width: 600px) {
+  .main:hover {
+    padding-left: 12px;
+    transition: padding 0.3s ease;
+  }
+
+  .mainSelected {
+    background-color: rgb(67, 187, 141);
+    color: white;
+  }
+
+  .name {
+    color: rgb(75, 75, 75);
+  }
+
+  .nameSelected {
+    color: black;
+  }
 }
