@@ -1,13 +1,22 @@
 import { create } from 'zustand'
 
+export type Conversation = {
+  id: number
+  name: string
+  lastMessage?: {
+    text: string
+    date: string | Date
+  }
+}
+
 interface State {
-  conversations?: { id: number; name: string }[]
-  setConversations: (convs: { id: number; name: string }[]) => void
+  conversations?: Conversation[]
+  setConversations: (convs: Conversation[]) => void
 }
 
 const useConversations = create<State>(set => ({
   conversations: undefined,
-  setConversations: (convs: { id: number; name: string }[]) =>
+  setConversations: convs =>
     set(state => {
       return { conversations: convs }
     }),

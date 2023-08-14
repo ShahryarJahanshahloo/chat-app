@@ -9,6 +9,10 @@ interface ServerToClientEvents {
     conversations: {
       id: number
       name: string
+      lastMessage?: {
+        text: string
+        date: string | Date
+      }
     }[]
   ) => void
   WELCOME: () => void

@@ -1,4 +1,4 @@
-.messageBlock {
+.container {
   width: 100%;
   padding: 10px 0;
 }
@@ -6,43 +6,29 @@
 .inner {
   display: flex;
   flex-direction: row;
-  height: 100%;
   width: 100%;
 }
 
 .innerSent {
   display: flex;
   flex-direction: row-reverse;
-  height: 100%;
   width: 100%;
 }
 
 .author {
-  height: 100%;
-  width: 32px;
-  margin-right: 8px;
-}
-
-.authorName {
-  font-size: 10px;
-  padding-bottom: 10px;
-  font-weight: 500;
-  color: #7e7e7e;
-}
-
-.authorNameSent {
-  display: none;
+  height: 48px;
+  width: 48px;
 }
 
 .authorSent {
-  height: 100%;
-  width: 32px;
-  margin-left: 8px;
+  height: 48px;
+  width: 48px;
 }
 
 .authorInner {
   display: flex;
   flex-direction: column;
+  align-items: center;
   height: 100%;
   width: 100%;
 }
@@ -66,26 +52,37 @@
 
 .textWrapper {
   height: 100%;
-  max-width: 420px;
+  max-width: 70%;
   border-radius: 0 12px 12px 12px;
   background-color: #fff;
   color: rgb(75, 75, 75);
   padding: 14px;
+  display: flex;
+  flex-direction: column;
 }
 
 .textWrapperSent {
-  height: 100%;
-  max-width: 420px;
   border-radius: 12px 0 12px 12px;
   background-color: blueviolet;
   color: white;
-  padding: 14px;
+}
+
+.authorName {
+  font-size: 10px;
+  padding-bottom: 10px;
+  font-weight: 500;
+  color: #7e7e7e;
+}
+
+.authorNameSent {
+  display: none;
 }
 
 .text {
-  height: 100%;
+  width: 100%;
+  flex: 1 0 0;
+  word-break: break-all;
 }
 
 .textSent {
-  height: 100%;
 }

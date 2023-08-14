@@ -49,4 +49,32 @@ router.post('/join', auth, async (req, res) => {
   }
 })
 
+router.get('/search', async (req, res) => {
+  try {
+    const query = req.query.query as string
+    const results = await prisma.conversation.findMany({
+      where: {
+        name: {
+          contains: query,
+          mode: 'insensitive',
+        },
+      },
+      select: {
+        id: true,
+        name: true,
+        _count: {
+          select: {
+            members: true,
+          },
+        },
+      },
+      take: 10,
+    })
+    res.send(results)
+  } catch (error) {
+    console.log(error)
+    res.status(500).send()
+  }
+})
+
 export default router

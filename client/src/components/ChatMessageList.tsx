@@ -31,15 +31,11 @@ const ChatMessageList: FC = () => {
       <div className={s.inner}>
         {selectedConversation &&
           oldMessages[selectedConversation.id].map((value, index) => (
-            <div key={index}>
-              <ChatMessage message={value} />
-            </div>
+            <ChatMessage message={value} key={index} />
           ))}
         {selectedConversation &&
           newMessages[selectedConversation.id].map((value, index) => (
-            <div key={index}>
-              <ChatMessage message={value} />
-            </div>
+            <ChatMessage message={value} key={index} />
           ))}
       </div>
     </div>

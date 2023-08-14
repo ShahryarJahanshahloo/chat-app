@@ -1,7 +1,7 @@
 import { useRef, useState, FC, ChangeEvent, KeyboardEvent } from 'react'
 import { socket } from '../lib/socket'
 import s from './ChatFooter.module.css'
-import { BsFillSendFill as SendButton } from 'react-icons/bs'
+import { RiSendPlane2Fill as SendButton } from 'react-icons/ri'
 import useSelectedConversationStore from '../store/useSelectedConversationStore'
 
 const ChatFooter: FC = () => {
@@ -43,7 +43,9 @@ const ChatFooter: FC = () => {
             />
           </div>
           <div className={s.send} onClick={clickHandler}>
-            <SendButton style={{ color: 'white', fontSize: '18px' }} />
+            <SendButton
+              style={{ color: 'rgb(51, 81, 252)', fontSize: '24px' }}
+            />
           </div>
         </div>
       )}

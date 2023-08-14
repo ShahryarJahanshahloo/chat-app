@@ -1,42 +1,69 @@
 import prisma from '../../lib/prisma.js'
 import { SocketType } from '../index.js'
 
-export default function joinRooms(
+type Conversation = {
+  id: number
+  name: string
+  lastMessage?: {
+    text: string
+    date: Date | string
+  }
+}
+
+export default async function joinRooms(
   socket: SocketType,
   next: (err?: Error) => void
-): void {
-  if (!socket.data.user) return next()
-  prisma.usersOnConversations
-    .findMany({
-      where: {
-        userId: +socket.data.user.id,
-      },
-      select: {
-        conversation: {
-          select: {
-            id: true,
-            name: true,
+): Promise<void> {
+  try {
+    if (!socket.data.user) return next()
+    const conversations: { conversation: Conversation }[] =
+      await prisma.usersOnConversations.findMany({
+        where: {
+          userId: +socket.data.user.id,
+        },
+        select: {
+          conversation: {
+            select: {
+              id: true,
+              name: true,
+            },
           },
         },
-      },
-    })
-    .then(conversations => {
-      for (const conversation of conversations) {
-        socket.join(`${conversation.conversation.id}`)
+      })
+    if (!conversations) return next()
+    for (const conversation of conversations) {
+      socket.join(`${conversation.conversation.id}`)
+    }
+    for (const conversation of conversations) {
+      const message = await prisma.message.findFirst({
+        where: {
+          conversationId: conversation.conversation.id,
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+        select: {
+          text: true,
+          createdAt: true,
+        },
+      })
+      if (!message) continue
+      conversation.conversation.lastMessage = {
+        date: message.createdAt,
+        text: message.text,
       }
-      if (conversations) {
-        const normalizedConvs = conversations.map(item => {
-          return {
-            id: item.conversation.id,
-            name: item.conversation.name,
-          }
-        })
-        socket.emit('USER_CONVS', normalizedConvs)
+    }
+    const normalizedConvs = conversations.map(item => {
+      return {
+        id: item.conversation.id,
+        name: item.conversation.name,
+        lastMessage: item.conversation.lastMessage,
       }
-      next()
     })
-    .catch(e => {
-      console.log(e)
-      next(e)
-    })
+    socket.emit('USER_CONVS', normalizedConvs)
+    next()
+  } catch (error) {
+    console.log(error)
+    next(error as Error)
+  }
 }

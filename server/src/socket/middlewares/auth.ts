@@ -6,15 +6,15 @@ interface JWTPayload {
   id: string
 }
 
-export default function auth(
+export default async function auth(
   socket: SocketType,
   next: (err?: Error) => void
-): void {
-  const token = socket.handshake.auth.token
-  if (token == null) return next()
-  const decoded = jwt.verify(token, process.env.JWT_SECRET) as JWTPayload
-  prisma.user
-    .findUniqueOrThrow({
+): Promise<void> {
+  try {
+    const token = socket.handshake.auth.token
+    if (token == null) return next()
+    const decoded = jwt.verify(token, process.env.JWT_SECRET) as JWTPayload
+    const user = await prisma.user.findUniqueOrThrow({
       where: {
         id: +decoded.id,
       },
@@ -24,11 +24,9 @@ export default function auth(
         color: true,
       },
     })
-    .then(user => {
-      socket.data.user = user
-      next()
-    })
-    .catch(e => {
-      next()
-    })
+    socket.data.user = user
+    next()
+  } catch (error) {
+    next(error as Error)
+  }
 }

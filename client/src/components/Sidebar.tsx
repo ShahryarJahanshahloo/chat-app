@@ -9,6 +9,7 @@ import LogoutModal from './LogoutModal'
 import useModal from '../hooks/useModal'
 import SidebarHeader from './SidebarHeader'
 import SidebarAlter from './SidebarAlter'
+import { Conversation as ConversationType } from '../store/useConversations'
 
 const Sidebar: FC = () => {
   const conversations = useConversations(state => state.conversations)
@@ -20,7 +21,7 @@ const Sidebar: FC = () => {
   const [closeLogoutModal, openLogoutModal, isLogoutModalOpen] = useModal()
 
   useEffect(() => {
-    function onConversations(convs: { id: number; name: string }[]) {
+    function onConversations(convs: ConversationType[]) {
       initNewConversations(convs)
       setConversations(convs)
     }
@@ -38,17 +39,12 @@ const Sidebar: FC = () => {
       <div className={s.inner}>
         <SidebarHeader />
         <div className={s.convs}>
-          {conversations
-            ? conversations.map(item => {
-                return (
-                  <div key={item.id}>
-                    <Conversation id={item.id} name={item.name} />
-                  </div>
-                )
-              })
-            : null}
+          {conversations &&
+            conversations.map(item => {
+              return <Conversation data={item} key={item.id} />
+            })}
         </div>
-        {conversations && conversations.length < 8 ? <SidebarAlter /> : null}
+        {conversations && conversations.length < 8 && <SidebarAlter />}
       </div>
     </div>
   )

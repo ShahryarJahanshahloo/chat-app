@@ -21,7 +21,9 @@ const SidebarHeader = () => {
         <div className={s.icon}>
           <SettingsIcon style={iconStyle} />
         </div>
-        <div className={s.logo}>Chats</div>
+        <div className={s.titleWrapper}>
+          <div className={s.title}>Chats</div>
+        </div>
         <div className={s.icon} onClick={openSearchModal}>
           <SearchIcon style={iconStyle} />
         </div>

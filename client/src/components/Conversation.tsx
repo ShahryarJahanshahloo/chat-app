@@ -4,13 +4,13 @@ import useOldMessagesStore from '../store/useOldMessgesStore'
 import request from '../lib/axios.js'
 import { FC } from 'react'
 import useChatStatusStore from '../store/useChatStatus'
+import { Conversation as ConversationType } from '../store/useConversations'
 
 type Props = {
-  id: number
-  name: string
+  data: ConversationType
 }
 
-const Conversation: FC<Props> = ({ id, name }) => {
+const Conversation: FC<Props> = ({ data }) => {
   const conversation = useSelectedConversationStore(state => state.conversation)
   const oldMessages = useOldMessagesStore(state => state.messages)
   const openChatPanel = useChatStatusStore(state => state.open)
@@ -20,24 +20,32 @@ const Conversation: FC<Props> = ({ id, name }) => {
   const selectConversation = useSelectedConversationStore(
     state => state.selectConversation
   )
-  const isSelected = conversation == null ? false : conversation.id == id
+  const isSelected = conversation == null ? false : conversation.id == data.id
 
   async function clickHandler() {
-    if (Object.keys(oldMessages).includes(`${id}`) == false) {
-      const res = await request.get('/message/conversation/' + id)
-      setConversationMessages(id, res.data.messages)
+    if (Object.keys(oldMessages).includes(`${data.id}`) == false) {
+      const res = await request.get('/message/conversation/' + data.id)
+      setConversationMessages(data.id, res.data.messages)
     }
-    selectConversation({ id, name })
+    selectConversation({ id: data.id, name: data.name })
     openChatPanel()
   }
 
   return (
     <div
-      className={isSelected ? s.mainSelected : s.main}
+      className={`${s.main} ${isSelected && s.mainSelected}`}
       onClick={clickHandler}
     >
       <div className={s.inner}>
-        <div className={isSelected ? s.nameSelected : s.name}>{name}</div>
+        <div className={s.innerLeft}>
+          <div className={isSelected ? s.nameSelected : s.name}>
+            {data.name}
+          </div>
+          <div className={s.message}>{data.lastMessage?.text}</div>
+        </div>
+        <div className={s.innerRight}>
+          <div className={s.date}>{data.lastMessage?.date.toString()}</div>
+        </div>
       </div>
     </div>
   )
