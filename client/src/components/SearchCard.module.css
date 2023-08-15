@@ -1,0 +1,41 @@
+@import '../vars.css';
+
+.container {
+  height: 76px;
+}
+
+.inner {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.left {
+  flex: 1 0 0;
+  padding: 0 20px 0 0;
+}
+
+.name {
+  width: 100%;
+  font-size: 1.6rem;
+}
+
+.members {
+  width: 100%;
+  font-size: 1.4rem;
+  color: var(--color-icon);
+}
+
+.right {
+}
+
+.join {
+  width: 64px;
+  height: 40px;
+  border-radius: 10px;
+  background-color: var(--color-primary-1);
+  color: var(--color-background);
+  font-weight: bold;
+}

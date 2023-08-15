@@ -6,6 +6,7 @@ import { useDebouncedCallback } from 'use-debounce'
 import { useEffect, useState, useRef } from 'react'
 import useRequest from '../hooks/useRequest'
 import { searchConvs, ApiConvSearch } from '../api/conversation'
+import SearchCard from './SearchCard'
 
 type Props = {
   isOpen: boolean
@@ -18,22 +19,23 @@ const SearchModal: React.FC<Props> = ({ isOpen, close }) => {
   const [results, setResults] = useState<ApiConvSearch[]>()
   const { response, sendRequest } = useRequest(
     searchConvs,
-    res => {
-      resultCache.current[query] = res
-    },
+    res => {},
     err => {}
   )
 
   const debouncedSetQuery = useDebouncedCallback(value => setQuery(value), 1000)
-
   const handleChange: React.ChangeEventHandler<HTMLInputElement> = e => {
     debouncedSetQuery(e.target.value)
   }
 
   useEffect(() => {
+    console.log(resultCache.current)
     if (query.trim() === '') return
     if (!resultCache.current[query]) {
       sendRequest(query)
+      if (!response) return
+      resultCache.current[query] = response
+      setResults(response)
     } else {
       setResults(resultCache.current[query])
     }
@@ -61,7 +63,19 @@ const SearchModal: React.FC<Props> = ({ isOpen, close }) => {
           </div>
         </div>
         <div className={s.flex}>
-          <div className={s.results}></div>
+          <div className={s.results}>
+            {results &&
+              results.map(item => {
+                return (
+                  <SearchCard
+                    key={item.id}
+                    name={item.name}
+                    members={item._count.members}
+                    id={item.id}
+                  />
+                )
+              })}
+          </div>
         </div>
       </div>
     </Modal>

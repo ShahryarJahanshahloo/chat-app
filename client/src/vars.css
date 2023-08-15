@@ -1,4 +1,12 @@
 :root {
+  --color-primary-1: #3351fc;
+  --color-primary-2: #93a3ff;
+  --color-text-1: #0c0c0c;
+  --color-text-2: #555555;
+  --color-background: #fafafa;
+  --color-background-chat: #edf2f8;
   --color-border: #ebecf0;
   --color-icon: #5e6c84;
+  --color-gradient-1: #00c6ff;
+  --color-gradient-2: #0072ff;
 }

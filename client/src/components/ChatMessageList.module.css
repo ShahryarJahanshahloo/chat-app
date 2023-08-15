@@ -1,10 +1,12 @@
+@import '../vars.css';
+
 .container {
   flex: 1 0 0;
   width: 100%;
   padding: 10px 20px;
   overflow-y: auto;
   overflow-x: hidden;
-  background-color: rgb(237, 242, 248);
+  background-color: var(--color-background-chat);
 }
 
 ::-webkit-scrollbar {

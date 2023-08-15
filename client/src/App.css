@@ -49,3 +49,7 @@ input {
   font-family: inherit;
   border: none;
 }
+
+input {
+  background-color: inherit;
+}

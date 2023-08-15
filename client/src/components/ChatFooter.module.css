@@ -1,11 +1,13 @@
+@import '../vars.css';
+
 .container {
   width: 100%;
   height: 56px;
   display: flex;
   align-items: center;
   padding: 0 20px;
-  border-top: 1px solid rgb(235, 235, 235);
-  background-color: #fff;
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-background);
   box-shadow: rgba(9, 30, 66, 0.08) 0px -1px 4px;
 }
 
@@ -22,7 +24,7 @@
   align-items: center;
   width: 100%;
   margin-right: 10px;
-  background-color: #fff;
+  background-color: var(--color-background);
   border-radius: 24px;
   height: 100%;
 }
@@ -31,11 +33,11 @@
   border: none;
   height: 14px;
   line-height: 14px;
-  font-size: 14px;
+  font-size: 1.4rem;
   width: 100%;
   outline: none;
   border-radius: 24px;
-  background-color: #fff;
+  background-color: var(--color-background);
   resize: none;
   white-space: normal;
 }
@@ -49,6 +51,5 @@
   width: 40px;
   height: 40px;
   border-radius: 24px;
-  /* background-color: rgb(51, 81, 252); */
   cursor: pointer;
 }

@@ -19,7 +19,6 @@ const ChatToolbar: FC = () => {
           <CloseIcon
             style={{
               fontSize: '22px',
-              // color: 'silver',
             }}
           />
         </div>

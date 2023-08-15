@@ -18,13 +18,13 @@ const SidebarHeader = () => {
     <div className={s.container}>
       <SearchModal isOpen={isSearchModalOpen} close={closeSearchModal} />
       <div className={s.inner}>
-        <div className={s.icon}>
+        <div className={s.iconLeft}>
           <SettingsIcon style={iconStyle} />
         </div>
         <div className={s.titleWrapper}>
           <div className={s.title}>Chats</div>
         </div>
-        <div className={s.icon} onClick={openSearchModal}>
+        <div className={s.iconRight} onClick={openSearchModal}>
           <SearchIcon style={iconStyle} />
         </div>
       </div>

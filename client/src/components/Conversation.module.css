@@ -35,16 +35,16 @@
 }
 
 .name {
-  font-size: 18px;
+  font-size: 1.8rem;
   padding-left: 20px;
-  color: rgb(75, 75, 75);
+  color: var(--color-text-2);
   width: 100%;
 }
 
 .nameSelected {
-  font-size: 18px;
+  font-size: 1.8rem;
   padding-left: 20px;
-  color: rgb(75, 75, 75);
+  color: var(--color-text-2);
 }
 
 .message {
@@ -60,15 +60,15 @@
   }
 
   .mainSelected {
-    background-color: rgb(67, 187, 141);
-    color: white;
+    background-color: var(--color-primary-1);
+    color: var(--color-background);
   }
 
   .name {
-    color: rgb(75, 75, 75);
+    color: var(--color-text-2);
   }
 
   .nameSelected {
-    color: black;
+    color: var(--color-text-1);
   }
 }

@@ -1,0 +1,25 @@
+@import '../vars.css';
+
+.container {
+  width: 100%;
+  padding: 20px 20px;
+}
+
+.inner {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 2px dashed var(--color-border);
+  border-radius: 10px;
+  gap: 10px;
+  padding: 20px 20px;
+}
+
+.text {
+  width: 100%;
+  font-size: 1.2rem;
+  color: var(--color-icon);
+  text-align: center;
+}
