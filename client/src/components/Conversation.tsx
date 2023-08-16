@@ -5,6 +5,15 @@ import request from '../lib/axios.js'
 import { FC } from 'react'
 import useChatStatusStore from '../store/useChatStatus'
 import { Conversation as ConversationType } from '../store/useConversations'
+import moment from 'moment'
+
+function formatDate(date: string | Date): string {
+  const res = moment(date).format('MMM D YYYY')
+  const currentYear = moment().format('YYYY')
+  const splittedRes = res.split(' ')
+  if (splittedRes[2] === currentYear) splittedRes[2] = ''
+  return splittedRes.join(' ')
+}
 
 type Props = {
   data: ConversationType
@@ -41,10 +50,14 @@ const Conversation: FC<Props> = ({ data }) => {
           <div className={isSelected ? s.nameSelected : s.name}>
             {data.name}
           </div>
-          <div className={s.message}>{data.lastMessage?.text}</div>
+          <div className={s.message}>
+            {data.lastMessage ? data.lastMessage.text : null}
+          </div>
         </div>
         <div className={s.innerRight}>
-          <div className={s.date}>{data.lastMessage?.date.toString()}</div>
+          <div className={s.date}>
+            {data.lastMessage && formatDate(data.lastMessage.date)}
+          </div>
         </div>
       </div>
     </div>

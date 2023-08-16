@@ -7,6 +7,8 @@ import { useEffect, useState, useRef } from 'react'
 import useRequest from '../hooks/useRequest'
 import { searchConvs, ApiConvSearch } from '../api/conversation'
 import SearchCard from './SearchCard'
+import SearchAlter from './SearchAlter'
+import SearchNoResultAlter from './SearchNoResultAlter'
 
 type Props = {
   isOpen: boolean
@@ -63,9 +65,13 @@ const SearchModal: React.FC<Props> = ({ isOpen, close }) => {
           </div>
         </div>
         <div className={s.flex}>
-          <div className={s.results}>
-            {results &&
-              results.map(item => {
+          {results === undefined ? (
+            <SearchAlter />
+          ) : results.length == 0 ? (
+            <SearchNoResultAlter />
+          ) : (
+            <div className={s.results}>
+              {results.map(item => {
                 return (
                   <SearchCard
                     key={item.id}
@@ -75,7 +81,8 @@ const SearchModal: React.FC<Props> = ({ isOpen, close }) => {
                   />
                 )
               })}
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </Modal>

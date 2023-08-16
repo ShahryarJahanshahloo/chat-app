@@ -7,9 +7,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 20px;
-  color: var(--color-icon);
+  background-color: var(--color-background-chat);
 }
 
 .text {
+  color: var(--color-text-2);
 }

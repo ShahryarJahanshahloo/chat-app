@@ -5,6 +5,7 @@ import s from './ChatMessageList.module.css'
 import useNewMessagesStore from '../store/useNewMessagesStore'
 import useSelectedConversationStore from '../store/useSelectedConversationStore'
 import useOldMessagesStore from '../store/useOldMessgesStore'
+import ChatAlter from './ChatAlter'
 import moment from 'moment'
 
 const ChatMessageList: FC = () => {
@@ -28,16 +29,20 @@ const ChatMessageList: FC = () => {
 
   return (
     <div className={s.container}>
-      <div className={s.inner}>
-        {selectedConversation &&
-          oldMessages[selectedConversation.id].map((value, index) => (
+      {selectedConversation &&
+      (oldMessages[selectedConversation.id].length > 0 ||
+        newMessages[selectedConversation.id].length > 0) ? (
+        <div className={s.inner}>
+          {oldMessages[selectedConversation.id].map((value, index) => (
             <ChatMessage message={value} key={index} />
           ))}
-        {selectedConversation &&
-          newMessages[selectedConversation.id].map((value, index) => (
+          {newMessages[selectedConversation.id].map((value, index) => (
             <ChatMessage message={value} key={index} />
           ))}
-      </div>
+        </div>
+      ) : (
+        <ChatAlter />
+      )}
     </div>
   )
 }

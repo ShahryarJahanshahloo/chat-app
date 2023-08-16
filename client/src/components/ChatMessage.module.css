@@ -88,3 +88,9 @@
 
 .textSent {
 }
+
+@media screen and (min-width: 1024px) {
+  .textWrapper {
+    max-width: 50%;
+  }
+}

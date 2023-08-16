@@ -3,11 +3,14 @@ import { socket } from '../lib/socket'
 import s from './ChatFooter.module.css'
 import { RiSendPlane2Fill as SendButton } from 'react-icons/ri'
 import useSelectedConversationStore from '../store/useSelectedConversationStore'
+import useAutosizeTextArea from '../hooks/useAutosizeTextArea'
 
 const ChatFooter: FC = () => {
   const [message, setMessage] = useState<string>('')
   const inputRef = useRef<HTMLTextAreaElement | null>(null)
   const conversation = useSelectedConversationStore(state => state.conversation)
+
+  useAutosizeTextArea(inputRef.current, message)
 
   function clickHandler() {
     if (!conversation) return
@@ -35,16 +38,21 @@ const ChatFooter: FC = () => {
           <div className={s.compose}>
             <textarea
               className={s.input}
+              id='main-message-input'
               onChange={onChangeHandler}
+              rows={1}
               value={message}
-              placeholder='Type your message...'
+              placeholder='Type your message'
               ref={inputRef}
               onKeyDown={keyDownHandler}
             />
           </div>
           <div className={s.send} onClick={clickHandler}>
             <SendButton
-              style={{ color: 'rgb(51, 81, 252)', fontSize: '24px' }}
+              style={{
+                color: message ? 'var(--color-primary-1)' : 'var(--color-icon)',
+                fontSize: '24px',
+              }}
             />
           </div>
         </div>

@@ -27,8 +27,15 @@
   justify-content: center;
   align-items: center;
   padding: 0 20px;
+  cursor: pointer;
 }
 
 .convName {
   font-size: 1.6rem;
+}
+
+@media screen and (min-width: 768px) {
+  .closeIcon {
+    display: none;
+  }
 }

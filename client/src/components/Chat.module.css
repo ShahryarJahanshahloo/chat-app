@@ -10,7 +10,7 @@
   position: fixed;
   top: 0;
   z-index: 10;
-  transition: all 0.5s ease;
+  transition: right 0.5s ease;
 }
 
 .mainHidden {
@@ -19,4 +19,15 @@
 
 .mainVisible {
   right: 0;
+}
+
+@media screen and (min-width: 768px) {
+  .main {
+    z-index: 2;
+    position: initial;
+    height: 100%;
+    right: 0;
+    flex: 1 0 0;
+    transition: none;
+  }
 }
