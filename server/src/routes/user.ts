@@ -28,6 +28,39 @@ router.post('/', async (req, res) => {
   }
 })
 
+router.delete('/', auth, async (req, res) => {
+  try {
+    const user = await prisma.conversation.delete({
+      where: {
+        id: req.user.id,
+      },
+    })
+    res.send(user)
+  } catch (error) {
+    console.log(error)
+    res.status(500).send()
+  }
+})
+
+router.patch('/', auth, async (req, res) => {
+  try {
+    const updates: any = {}
+    if (req.body.name) updates.name = req.body.name
+    if (req.body.color) updates.color = req.body.color
+    if (req.body.password) updates.password = req.body.password
+    const updateUser = await prisma.user.update({
+      where: { id: req.user.id },
+      data: {
+        ...updates,
+      },
+    })
+    res.send(updateUser)
+  } catch (error) {
+    console.log(error)
+    res.status(500).send()
+  }
+})
+
 router.post('/login', async (req, res) => {
   try {
     const user = await prisma.user.findUnique({

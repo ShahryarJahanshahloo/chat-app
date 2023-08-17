@@ -34,6 +34,45 @@ router.post('/', auth, async (req, res) => {
   }
 })
 
+router.delete('/', auth, async (req, res) => {
+  try {
+    const id = req.body.id
+    if (!id) return res.status(400).send()
+    const conversation = await prisma.conversation.findFirst({
+      where: {
+        id: id,
+      },
+    })
+    if (!conversation) return res.status(400).send()
+    if (conversation.creatorId !== req.user.id) return res.status(401).send()
+    const deltedConversation = await prisma.conversation.delete({
+      where: {
+        id: id,
+      },
+    })
+    res.send(deltedConversation)
+  } catch (error) {
+    console.log(error)
+    res.status(500).send()
+  }
+})
+
+router.post('/leave', auth, async (req, res) => {
+  try {
+    const id = req.body.id
+    if (!id) return res.status(400).send()
+    const conversation = await prisma.usersOnConversations.delete({
+      where: {
+        userId_conversationId: { conversationId: id, userId: req.user.id },
+      },
+    })
+    res.send(conversation)
+  } catch (error) {
+    console.log(error)
+    res.status(500).send()
+  }
+})
+
 router.post('/join', auth, async (req, res) => {
   try {
     await prisma.usersOnConversations.create({
@@ -76,5 +115,7 @@ router.get('/search', async (req, res) => {
     res.status(500).send()
   }
 })
+
+//TODO: leave, delete
 
 export default router

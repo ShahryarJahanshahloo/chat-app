@@ -14,7 +14,6 @@
 
 .title {
   display: flex;
-  flex-direction: row;
   align-items: center;
   height: 120px;
   flex-shrink: 0;
@@ -36,7 +35,6 @@
   height: 64px;
   flex-shrink: 0;
   display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: space-evenly;
   border-top: 1px solid var(--color-border);

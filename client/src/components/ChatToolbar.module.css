@@ -10,14 +10,15 @@
 
 .inner {
   display: flex;
-  flex-direction: row;
+  align-items: center;
   width: 100%;
   height: 100%;
+  padding: 0 12px;
 }
 
 .conv {
+  flex: 1 0;
   display: flex;
-  flex-direction: row;
   align-items: center;
   padding-left: 22px;
 }
@@ -26,12 +27,57 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0 20px;
   cursor: pointer;
 }
 
 .convName {
   font-size: 1.6rem;
+}
+
+.dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 36px;
+  height: 36px;
+  position: relative;
+  cursor: pointer;
+}
+
+.menu {
+  position: absolute;
+  top: 150%;
+  right: 50%;
+  width: 200px;
+  z-index: 10;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: rgba(122, 134, 154, 0.2) 0px 6px 12px 0px;
+  padding: 10px 20px;
+  overflow: none;
+  color: var(--color-text-1);
+}
+
+.menuVisible {
+  display: flex;
+  flex-direction: column;
+}
+
+.menuHidden {
+  display: none;
+}
+
+.menuItem {
+  display: flex;
+  gap: 10px;
+  cursor: pointer;
+  padding: 10px 0;
+}
+
+.menuIcon {
+}
+
+.menuText {
 }
 
 @media screen and (min-width: 768px) {
