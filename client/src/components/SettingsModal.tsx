@@ -3,6 +3,7 @@ import Modal from './Modal'
 import ModalCloseIcon from './ModalCloseIcon'
 import LogoutModal from './LogoutModal'
 import useModal from '../hooks/useModal'
+import useUserStore from '../store/useUserStore'
 
 type Props = {
   isOpen: boolean
@@ -11,6 +12,7 @@ type Props = {
 
 const SettingsModal: React.FC<Props> = ({ isOpen, close }) => {
   const [closeLogoutModal, openLogoutModal, isLogoutModalOpen] = useModal()
+  const user = useUserStore(state => state.user)
 
   return (
     <Modal close={close} isOpen={isOpen}>
@@ -23,24 +25,81 @@ const SettingsModal: React.FC<Props> = ({ isOpen, close }) => {
           <div className={s.headerTitle}>Settings</div>
         </div>
         <div className={s.headerBottom}>
-          <div className={s.name}>#Shahryar.JL</div>
+          <div className={s.name}>#{user?.username}</div>
           <div className={s.color}></div>
         </div>
 
         <div className={s.main}>
           <div className={s.profile}>
             <div className={s.title}>Profile</div>
-            <div className={s.label}>username</div>
-            <input className={s.input} placeholder='username'></input>
-            <div className={s.label}>color</div>
-            <input className={s.input} placeholder='color'></input>
-            <div className={s.label}>old pass</div>
-            <input className={s.input} placeholder='old pass'></input>
-            <div className={s.label}>new pass</div>
-            <input className={s.input} placeholder='new pass'></input>
-            <div className={s.label}>repeat new pass</div>
-            <input className={s.input} placeholder='repeat new pass'></input>
-            <button>Save changes</button>
+
+            <div className={s.inputGroup}>
+              <label className={s.label} htmlFor='username'>
+                username
+              </label>
+              <input
+                className={s.input}
+                id='username'
+                name='username'
+                type='text'
+                placeholder='username'
+              ></input>
+            </div>
+
+            <div className={s.inputGroup}>
+              <label className={s.label}>color</label>
+              <input
+                className={s.input}
+                type='text'
+                id='color'
+                name='color'
+                autoComplete='color'
+                placeholder='color'
+              ></input>
+            </div>
+
+            <div className={s.inputGroup}>
+              <label className={s.label} htmlFor='current-password'>
+                current password
+              </label>
+              <input
+                className={s.input}
+                type='password'
+                id='current-password'
+                name='current-password'
+                autoComplete='current-password'
+                placeholder='current password'
+              ></input>
+            </div>
+
+            <div className={s.inputGroup}>
+              <label className={s.label} htmlFor='new-password'>
+                new pass
+              </label>
+              <input
+                className={s.input}
+                type='password'
+                name='new-password'
+                id='new-password'
+                autoComplete='new-password'
+                placeholder='new pass'
+              ></input>
+            </div>
+
+            <div className={s.inputGroup}>
+              <label className={s.label} htmlFor='new-password-repeated'>
+                repeat new pass
+              </label>
+              <input
+                className={s.input}
+                type='password'
+                id='new-password-repeated'
+                name='new-password-repeated'
+                placeholder='repeat new pass'
+              ></input>
+            </div>
+
+            <input type='submit' value='Save changes' />
           </div>
           <div className={s.logout}>
             <div className={s.title}>Logout</div>

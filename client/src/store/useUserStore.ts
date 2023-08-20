@@ -1,15 +1,16 @@
 import { create } from 'zustand'
+import { ApiUser } from '../api/entities'
 
 interface State {
-  user?: { id: number }
-  setUser: (id: number) => void
+  user?: ApiUser
+  setUser: (user: ApiUser) => void
 }
 
 const useUserStore = create<State>(set => ({
   user: undefined,
-  setUser: id =>
+  setUser: user =>
     set(() => {
-      return { user: { id: id } }
+      return { user: { ...user } }
     }),
 }))
 

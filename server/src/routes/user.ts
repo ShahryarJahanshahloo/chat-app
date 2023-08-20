@@ -21,7 +21,7 @@ router.post('/', async (req, res) => {
     if (!isValid) return res.status(400).send('invalid body')
     userInfo.password = await bcrypt.hash(userInfo.password, 8)
     const user = await prisma.user.create({ data: userInfo })
-    res.status(201).send(user)
+    res.status(201).send()
   } catch (error) {
     console.log(error)
     res.status(400).send()
@@ -80,7 +80,23 @@ router.post('/login', async (req, res) => {
 })
 
 router.post('/auth', auth, async (req, res) => {
-  res.send({ userId: req.user.id })
+  try {
+    const user = await prisma.user.findFirst({
+      where: {
+        id: req.user.id,
+      },
+    })
+    if (!user) return res.status(404).send()
+    res.send({
+      username: user.name,
+      color: user.color,
+      email: user.email,
+      id: user.id,
+    })
+  } catch (error) {
+    console.log(error)
+    res.status(500).send()
+  }
 })
 
 export default router

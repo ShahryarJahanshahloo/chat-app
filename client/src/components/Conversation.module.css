@@ -63,7 +63,11 @@
 
 @media screen and (min-width: 768px) {
   .mainSelected {
-    background-color: var(--color-primary-1);
-    color: #eef1ff;
+    background-color: var(--color-primary-1) !important;
+    color: #eef1ff !important;
+  }
+
+  .main:hover {
+    background-color: var(--color-background-chat);
   }
 }

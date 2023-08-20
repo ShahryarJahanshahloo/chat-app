@@ -8,7 +8,7 @@ import {
   BsTrash as TrashIcon,
   BsThreeDotsVertical as DotsIcon,
 } from 'react-icons/bs'
-import useChatStatusStore from '../store/useChatStatus'
+import useChatStatusStore from '../store/useChatStatusStore'
 
 const ChatToolbar: FC = () => {
   const selectedConv = useSelectedConversationStore(state => state.conversation)

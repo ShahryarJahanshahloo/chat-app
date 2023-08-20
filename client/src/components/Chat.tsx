@@ -4,7 +4,7 @@ import ChatFooter from './ChatFooter'
 import s from './Chat.module.css'
 import { FC } from 'react'
 import useSelectedConversationStore from '../store/useSelectedConversationStore'
-import useChatStatusStore from '../store/useChatStatus'
+import useChatStatusStore from '../store/useChatStatusStore'
 import NoConvAlter from './NoConvAlter'
 
 const Chat: FC = () => {

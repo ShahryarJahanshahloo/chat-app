@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import Modal from './Modal'
-import request from '../lib/axios'
 import s from './ConversationModal.module.css'
 import { useNavigate } from 'react-router-dom'
 import ModalCloseIcon from './ModalCloseIcon'
+import useRequest from '../hooks/useRequest'
+import { createConv } from '../api/conversation'
 
 type Props = {
   isOpen: boolean
@@ -13,13 +14,14 @@ type Props = {
 const ConversationModal: React.FC<Props> = ({ isOpen, close }) => {
   const [convName, setConvName] = useState('')
   const navigate = useNavigate()
+  const { sendRequest } = useRequest(
+    createConv,
+    res => navigate(0),
+    err => {}
+  )
 
-  const handleSubmit = async () => {
-    const res = await request.post('/conversation', { name: convName })
-    if (res.status == 201) {
-      alert('Conversation created successfully')
-      navigate(0)
-    }
+  const handleSubmit = () => {
+    sendRequest({ name: convName })
   }
 
   return (

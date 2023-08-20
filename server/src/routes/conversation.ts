@@ -116,6 +116,4 @@ router.get('/search', async (req, res) => {
   }
 })
 
-//TODO: leave, delete
-
 export default router

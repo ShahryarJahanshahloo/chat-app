@@ -3,17 +3,19 @@ import { socket } from '../lib/socket'
 import s from './Sidebar.module.css'
 import Conversation from './Conversation'
 import useNewMessagesStore from '../store/useNewMessagesStore'
-import useConversations from '../store/useConversations'
+import useConversationsStore from '../store/useConversationsStore'
 import ConversationModal from './ConversationModal'
 import LogoutModal from './LogoutModal'
 import useModal from '../hooks/useModal'
 import SidebarHeader from './SidebarHeader'
 import SidebarAlter from './SidebarAlter'
-import { Conversation as ConversationType } from '../store/useConversations'
+import { Conversation as ConversationType } from '../store/useConversationsStore'
 
 const Sidebar: FC = () => {
-  const conversations = useConversations(state => state.conversations)
-  const setConversations = useConversations(state => state.setConversations)
+  const conversations = useConversationsStore(state => state.conversations)
+  const setConversations = useConversationsStore(
+    state => state.setConversations
+  )
   const initNewConversations = useNewMessagesStore(
     state => state.initConversations
   )

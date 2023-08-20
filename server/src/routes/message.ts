@@ -7,19 +7,21 @@ const router = express.Router()
 router.get('/conversation/:id', async (req, res) => {
   try {
     const messages: (Message & {
-      author?: { name: string }
+      author?: { name: string; color: string }
       authorName?: string
+      authorColor?: string
     })[] = await prisma.message.findMany({
       where: {
         conversationId: +req.params.id,
       },
       include: {
-        author: { select: { name: true } },
+        author: { select: { name: true, color: true } },
       },
       orderBy: { createdAt: 'asc' },
     })
     messages.forEach(message => {
       message.authorName = message.author?.name
+      message.authorColor = message.author?.color
       delete message.author
     })
     res.send({ messages })

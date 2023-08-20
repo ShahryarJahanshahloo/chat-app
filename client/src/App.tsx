@@ -14,7 +14,7 @@ function App() {
   const setUser = useUserStore(state => state.setUser)
   const { sendRequest } = useRequest(
     auth,
-    res => setUser(res.userId),
+    res => setUser(res),
     err => {
       if (err.response?.status === 401) {
         navigate('/login')

@@ -14,7 +14,7 @@ interface State {
   setConversations: (convs: Conversation[]) => void
 }
 
-const useConversations = create<State>(set => ({
+const useConversationsStore = create<State>(set => ({
   conversations: undefined,
   setConversations: convs =>
     set(state => {
@@ -22,4 +22,4 @@ const useConversations = create<State>(set => ({
     }),
 }))
 
-export default useConversations
+export default useConversationsStore

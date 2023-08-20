@@ -6,7 +6,7 @@ import useNewMessagesStore from '../store/useNewMessagesStore'
 import useSelectedConversationStore from '../store/useSelectedConversationStore'
 import useOldMessagesStore from '../store/useOldMessgesStore'
 import ChatAlter from './ChatAlter'
-import moment from 'moment'
+import { getMessageDate } from '../utils/date'
 
 const ChatMessageList: FC = () => {
   const newMessages = useNewMessagesStore(state => state.messages)
@@ -18,7 +18,7 @@ const ChatMessageList: FC = () => {
 
   useEffect(() => {
     socket.on('MSG_FROM_SERVER', function (msg: ServerMessage) {
-      const date = moment(msg.createdAt).format('HH:mm')
+      const date = getMessageDate(msg.createdAt)
       msg.createdAt = date
       addNewMessage(msg)
     })

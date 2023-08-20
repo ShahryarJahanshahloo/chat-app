@@ -1,19 +1,12 @@
 import s from './Conversation.module.css'
 import useSelectedConversationStore from '../store/useSelectedConversationStore'
 import useOldMessagesStore from '../store/useOldMessgesStore'
-import request from '../lib/axios.js'
 import { FC } from 'react'
-import useChatStatusStore from '../store/useChatStatus'
-import { Conversation as ConversationType } from '../store/useConversations'
-import moment from 'moment'
-
-function formatDate(date: string | Date): string {
-  const res = moment(date).format('MMM D YYYY')
-  const currentYear = moment().format('YYYY')
-  const splittedRes = res.split(' ')
-  if (splittedRes[2] === currentYear) splittedRes[2] = ''
-  return splittedRes.join(' ')
-}
+import useChatStatusStore from '../store/useChatStatusStore'
+import { Conversation as ConversationType } from '../store/useConversationsStore'
+import { getConversationDate } from '../utils/date'
+import useRequest from '../hooks/useRequest'
+import { getConvMessages } from '../api/message'
 
 type Props = {
   data: ConversationType
@@ -30,14 +23,23 @@ const Conversation: FC<Props> = ({ data }) => {
     state => state.selectConversation
   )
   const isSelected = conversation == null ? false : conversation.id == data.id
+  const { sendRequest } = useRequest(
+    getConvMessages,
+    res => {
+      setConversationMessages(data.id, res.messages)
+      selectConversation({ id: data.id, name: data.name })
+      openChatPanel()
+    },
+    err => {}
+  )
 
   async function clickHandler() {
     if (Object.keys(oldMessages).includes(`${data.id}`) == false) {
-      const res = await request.get('/message/conversation/' + data.id)
-      setConversationMessages(data.id, res.data.messages)
+      sendRequest(data.id)
+    } else {
+      selectConversation({ id: data.id, name: data.name })
+      openChatPanel()
     }
-    selectConversation({ id: data.id, name: data.name })
-    openChatPanel()
   }
 
   return (
@@ -56,7 +58,7 @@ const Conversation: FC<Props> = ({ data }) => {
         </div>
         <div className={s.innerRight}>
           <div className={s.date}>
-            {data.lastMessage && formatDate(data.lastMessage.date)}
+            {data.lastMessage && getConversationDate(data.lastMessage.date)}
           </div>
         </div>
       </div>

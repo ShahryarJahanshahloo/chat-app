@@ -9,7 +9,7 @@ type Props = {
 
 const ChatMessage: FC<Props> = ({ message }) => {
   const user = useUserStore(state => state.user)
-  const sent = user == null ? false : message.authorId == user.id
+  const sent = user == null ? false : message.authorId === user.id
   // const sent = false
   // const sent = true
 
