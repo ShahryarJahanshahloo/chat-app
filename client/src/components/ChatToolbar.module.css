@@ -71,7 +71,12 @@
   display: flex;
   gap: 10px;
   cursor: pointer;
-  padding: 10px 0;
+  padding: 10px 10px;
+  border-radius: 100px;
+}
+
+.menuItem:hover {
+  background-color: var(--color-background-chat);
 }
 
 .menuIcon {

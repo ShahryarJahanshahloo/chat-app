@@ -109,7 +109,29 @@ router.get('/search', async (req, res) => {
       },
       take: 10,
     })
-    res.send(results)
+    res.send({ conversations: results, query: query })
+  } catch (error) {
+    console.log(error)
+    res.status(500).send()
+  }
+})
+
+router.get('/:id/members', async (req, res) => {
+  try {
+    const members = await prisma.usersOnConversations.findMany({
+      where: {
+        conversationId: req.body.id,
+      },
+      select: {
+        user: {
+          select: {
+            name: true,
+            id: true,
+          },
+        },
+      },
+    })
+    res.send(members)
   } catch (error) {
     console.log(error)
     res.status(500).send()

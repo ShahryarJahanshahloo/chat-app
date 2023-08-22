@@ -7,6 +7,7 @@ import Home from './components/Home'
 import Login from './components/Login'
 import useRequest from './hooks/useRequest'
 import { auth } from './api/auth'
+import Singup from './components/Singup'
 
 function App() {
   const { isConnected, setIsConnected } = useSocket()
@@ -32,6 +33,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/signup' element={<Singup />} />
       </Routes>
     </div>
   )

@@ -1,7 +1,7 @@
 @import '../vars.css';
 
 .container {
-  flex: 1 0 0;
+  flex: 1 0;
   width: 100%;
   padding: 10px 20px;
   overflow-y: auto;

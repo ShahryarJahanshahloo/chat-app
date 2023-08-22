@@ -9,11 +9,37 @@ import {
   BsThreeDotsVertical as DotsIcon,
 } from 'react-icons/bs'
 import useChatStatusStore from '../store/useChatStatusStore'
+import useRequest from '../hooks/useRequest'
+import { leaveConv, deleteConv } from '../api/conversation'
+import PromptModal from './PromptModal'
+import useModal from '../hooks/useModal'
+import MembersModal from './MembersModal'
+import { useNavigate } from 'react-router-dom'
 
 const ChatToolbar: FC = () => {
+  const navigate = useNavigate()
   const selectedConv = useSelectedConversationStore(state => state.conversation)
   const close = useChatStatusStore(state => state.close)
   const [isMenuOpen, setMenuOpen] = useState(false)
+  const [closeMembersModal, openMembersModal, isMembersModalOpen] = useModal()
+  const [closeLeaveModal, openLeaveModal, isLeaveModalOpen] = useModal()
+  const [closeDeleteModal, openDeleteModal, isDeleteModalOpen] = useModal()
+
+  const { sendRequest: sendLeaveRequest } = useRequest(
+    leaveConv,
+    res => {
+      navigate(0)
+    },
+    err => {}
+  )
+
+  const { sendRequest: sendDeleteRequest } = useRequest(
+    deleteConv,
+    res => {
+      navigate(0)
+    },
+    err => {}
+  )
 
   const handleCloseChat = () => {
     close()
@@ -21,6 +47,27 @@ const ChatToolbar: FC = () => {
 
   return (
     <div className={s.container}>
+      <MembersModal close={closeMembersModal} isOpen={isMembersModalOpen} />
+      <PromptModal
+        close={closeLeaveModal}
+        confirmTitle='Yes, leave'
+        description='Are you sure you want to leave this conversation? You can join again anytime.'
+        handleConfirm={() => {
+          sendLeaveRequest()
+        }}
+        isOpen={isLeaveModalOpen}
+        title='Leave Conversation'
+      />
+      <PromptModal
+        close={closeDeleteModal}
+        confirmTitle='Yes, delete it'
+        description='Are you sure you want to delete this conversation? All of the data will be lost.'
+        handleConfirm={() => {
+          sendDeleteRequest()
+        }}
+        isOpen={isDeleteModalOpen}
+        title='Delete Conversation'
+      />
       <div className={s.inner}>
         <div className={s.closeIcon} onClick={handleCloseChat}>
           <CloseIcon
@@ -32,33 +79,31 @@ const ChatToolbar: FC = () => {
         <div className={s.conv}>
           <div className={s.convName}>{selectedConv && selectedConv.name}</div>
         </div>
-        <div
-          className={s.dots}
-          onClick={() => {
-            setMenuOpen(prevState => !prevState)
-          }}
-        >
+        <div className={s.dots}>
           <DotsIcon
             style={{
               fontSize: '22px',
+            }}
+            onClick={() => {
+              setMenuOpen(prevState => !prevState)
             }}
           />
           <div
             className={`${s.menu} ${isMenuOpen ? s.menuVisible : s.menuHidden}`}
           >
-            <div className={s.menuItem}>
+            <div className={s.menuItem} onClick={openMembersModal}>
               <div className={s.menuIcon}>
                 <MembersIcon />
               </div>
               <div className={s.menuText}>Members</div>
             </div>
-            <div className={s.menuItem}>
+            <div className={s.menuItem} onClick={openLeaveModal}>
               <div className={s.menuIcon}>
                 <LeaveIcon />
               </div>
               <div className={s.menuText}>Leave Chat</div>
             </div>
-            <div className={s.menuItem}>
+            <div className={s.menuItem} onClick={openDeleteModal}>
               <div className={s.menuIcon}>
                 <TrashIcon />
               </div>

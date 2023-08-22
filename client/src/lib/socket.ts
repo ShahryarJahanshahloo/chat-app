@@ -38,7 +38,6 @@ export type ServerMessage = {
   createdAt: string | Date
   authorId: number
   authorName: string
-  authorColor: string
 }
 
 export type ClientMessage = {

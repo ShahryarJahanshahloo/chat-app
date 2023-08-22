@@ -21,7 +21,7 @@
 }
 
 .searchBarWrapper {
-  flex: 1 0 0;
+  flex: 1 0;
   display: flex;
   align-items: center;
   height: 100%;
@@ -37,7 +37,7 @@
 }
 
 .input {
-  flex: 1 0 0;
+  flex: 1 0;
   height: 100%;
   border-radius: 100px;
   padding: 0 12px;
@@ -56,7 +56,7 @@
 
 .flex {
   overflow-y: scroll;
-  flex: 1 0 0;
+  flex: 1 0;
 }
 
 .results {

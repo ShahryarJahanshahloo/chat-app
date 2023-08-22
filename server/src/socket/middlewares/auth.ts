@@ -21,7 +21,6 @@ export default async function auth(
       select: {
         id: true,
         name: true,
-        color: true,
       },
     })
     socket.data.user = user

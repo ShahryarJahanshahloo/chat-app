@@ -25,7 +25,6 @@ interface SocketData {
   user?: {
     id: number
     name: string
-    color: string
   }
 }
 
@@ -58,7 +57,6 @@ export type ServerMessage = {
   createdAt: string | Date
   authorId: number
   authorName: string
-  authorColor: string
 }
 
 export type ClientMessage = {

@@ -20,9 +20,13 @@ const SearchModal: React.FC<Props> = ({ isOpen, close }) => {
   const resultCache = useRef<{ [key: string]: ApiConvSearch[] }>({})
   const [query, setQuery] = useState('')
   const [results, setResults] = useState<ApiConvSearch[]>()
-  const { response, sendRequest } = useRequest(
+  const { sendRequest } = useRequest(
     searchConvs,
-    res => {},
+    res => {
+      if (!res.conversations) return
+      resultCache.current[res.query] = res.conversations
+      setResults(res.conversations)
+    },
     err => {}
   )
 
@@ -36,9 +40,6 @@ const SearchModal: React.FC<Props> = ({ isOpen, close }) => {
     if (query.trim() === '') return
     if (!resultCache.current[query]) {
       sendRequest(query)
-      if (!response) return
-      resultCache.current[query] = response
-      setResults(response)
     } else {
       setResults(resultCache.current[query])
     }

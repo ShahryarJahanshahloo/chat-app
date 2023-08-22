@@ -23,7 +23,6 @@ export default (io: IOType, socket: SocketType) => {
         createdAt: msg.createdAt,
         authorId: user.id,
         authorName: user.name,
-        authorColor: user.color,
       })
     } catch (error) {
       console.log(error)
