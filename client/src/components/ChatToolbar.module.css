@@ -5,7 +5,7 @@
   border-bottom: 1px solid rgb(235, 235, 235);
   padding: 4px 0;
   box-shadow: 0 1px 4px 0 rgba(9, 30, 66, 0.08);
-  z-index: 10;
+  z-index: 3;
 }
 
 .inner {
@@ -49,7 +49,7 @@
   top: 150%;
   right: 50%;
   width: 200px;
-  z-index: 10;
+  z-index: 3;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: rgba(122, 134, 154, 0.2) 0px 6px 12px 0px;

@@ -8,7 +8,8 @@ router.get('/tables', async (req, res) => {
     const conversations = await prisma.conversation.findMany()
     const messages = await prisma.message.findMany()
     const users = await prisma.user.findMany()
-    res.send({ conversations, messages, users })
+    const usersOnConversations = await prisma.usersOnConversations.findMany()
+    res.send({ conversations, messages, users, usersOnConversations })
   } catch (error) {
     console.log(error)
     res.status(500).send()

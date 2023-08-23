@@ -34,7 +34,7 @@ router.post('/', auth, async (req, res) => {
   }
 })
 
-router.delete('/', auth, async (req, res) => {
+router.post('/leave', auth, async (req, res) => {
   try {
     const id = req.body.id
     if (!id) return res.status(400).send()
@@ -42,31 +42,15 @@ router.delete('/', auth, async (req, res) => {
       where: {
         id: id,
       },
+      select: { creatorId: true },
     })
-    if (!conversation) return res.status(400).send()
-    if (conversation.creatorId !== req.user.id) return res.status(401).send()
-    const deltedConversation = await prisma.conversation.delete({
-      where: {
-        id: id,
-      },
-    })
-    res.send(deltedConversation)
-  } catch (error) {
-    console.log(error)
-    res.status(500).send()
-  }
-})
-
-router.post('/leave', auth, async (req, res) => {
-  try {
-    const id = req.body.id
-    if (!id) return res.status(400).send()
-    const conversation = await prisma.usersOnConversations.delete({
+    if (conversation?.creatorId == req.user.id) return res.status(400).send()
+    const deletedConversation = await prisma.usersOnConversations.delete({
       where: {
         userId_conversationId: { conversationId: id, userId: req.user.id },
       },
     })
-    res.send(conversation)
+    res.send(deletedConversation)
   } catch (error) {
     console.log(error)
     res.status(500).send()
@@ -118,20 +102,48 @@ router.get('/search', async (req, res) => {
 
 router.get('/:id/members', async (req, res) => {
   try {
-    const members = await prisma.usersOnConversations.findMany({
+    const members = await prisma.conversation.findFirst({
       where: {
-        conversationId: req.body.id,
+        id: req.body.id,
       },
       select: {
-        user: {
+        members: {
           select: {
-            name: true,
-            id: true,
+            user: {
+              select: {
+                name: true,
+                id: true,
+              },
+            },
           },
         },
       },
     })
-    res.send(members)
+    if (!members) return res.status(400).send()
+    res.send(members.members)
+  } catch (error) {
+    console.log(error)
+    res.status(500).send()
+  }
+})
+
+router.delete('/:id/delete', auth, async (req, res) => {
+  try {
+    const id = req.params.id as string
+    if (!id) return res.status(400).send()
+    const conversation = await prisma.conversation.findFirst({
+      where: {
+        id: +id,
+      },
+    })
+    if (!conversation) return res.status(400).send()
+    if (conversation.creatorId !== req.user.id) return res.status(401).send()
+    const deltedConversation = await prisma.conversation.delete({
+      where: {
+        id: +id,
+      },
+    })
+    res.send(deltedConversation)
   } catch (error) {
     console.log(error)
     res.status(500).send()

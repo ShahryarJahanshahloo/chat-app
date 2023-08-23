@@ -56,15 +56,15 @@ const SettingsModal: React.FC<Props> = ({ isOpen, close }) => {
     if (user) {
       setName(user.username)
     }
-  }, [])
+  }, [user])
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = e => {
     e.preventDefault()
     setError(undefined)
-    if (newPassword !== passwordRepeated)
-      return setError('passwords dont match')
+    // if (newPassword !== passwordRepeated)
+    //   return setError('passwords dont match')
     if (name === '') return setError('please enter a name')
-    sendUpdateRequest({ password: newPassword, name })
+    sendUpdateRequest({ name })
   }
 
   return (
@@ -76,7 +76,7 @@ const SettingsModal: React.FC<Props> = ({ isOpen, close }) => {
         confirmTitle='Yes, delete my profile'
         description='Are you sure you want to delete your profile? All of your data will be lost.'
         handleConfirm={() => {
-          sendDeleteRequest
+          sendDeleteRequest()
         }}
         isOpen={isDeleteUserModalOpen}
         title='Delete Account'

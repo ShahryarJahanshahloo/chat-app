@@ -7,6 +7,7 @@ export type Conversation = {
     text: string
     date: string | Date
   }
+  creatorId: number
 }
 
 interface State {

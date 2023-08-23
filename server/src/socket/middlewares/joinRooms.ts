@@ -8,6 +8,7 @@ type Conversation = {
     text: string
     date: Date | string
   }
+  creatorId: number
 }
 
 export default async function joinRooms(
@@ -26,6 +27,7 @@ export default async function joinRooms(
             select: {
               id: true,
               name: true,
+              creatorId: true,
             },
           },
         },
@@ -58,6 +60,7 @@ export default async function joinRooms(
         id: item.conversation.id,
         name: item.conversation.name,
         lastMessage: item.conversation.lastMessage,
+        creatorId: item.conversation.creatorId,
       }
     })
     socket.emit('USER_CONVS', normalizedConvs)

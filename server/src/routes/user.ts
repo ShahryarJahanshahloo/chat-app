@@ -37,7 +37,7 @@ router.post('/', async (req, res) => {
 
 router.delete('/', auth, async (req, res) => {
   try {
-    const user = await prisma.conversation.delete({
+    const user = await prisma.user.delete({
       where: {
         id: req.user.id,
       },

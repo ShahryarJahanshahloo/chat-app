@@ -13,6 +13,7 @@ interface ServerToClientEvents {
         text: string
         date: string | Date
       }
+      creatorId: number
     }[]
   ) => void
   WELCOME: () => void

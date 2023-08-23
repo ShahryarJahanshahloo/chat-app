@@ -27,7 +27,11 @@ const Conversation: FC<Props> = ({ data }) => {
     getConvMessages,
     res => {
       setConversationMessages(data.id, res.messages)
-      selectConversation({ id: data.id, name: data.name })
+      selectConversation({
+        id: data.id,
+        name: data.name,
+        creatorId: data.creatorId,
+      })
       openChatPanel()
     },
     err => {}
@@ -37,7 +41,11 @@ const Conversation: FC<Props> = ({ data }) => {
     if (Object.keys(oldMessages).includes(`${data.id}`) == false) {
       sendRequest(data.id)
     } else {
-      selectConversation({ id: data.id, name: data.name })
+      selectConversation({
+        id: data.id,
+        name: data.name,
+        creatorId: data.creatorId,
+      })
       openChatPanel()
     }
   }

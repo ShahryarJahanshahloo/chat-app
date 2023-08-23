@@ -1,4 +1,4 @@
-import { FC, useState } from 'react'
+import { FC, useState, useRef, useEffect } from 'react'
 import s from './ChatToolbar.module.css'
 import useSelectedConversationStore from '../store/useSelectedConversationStore'
 import { AiOutlineArrowLeft as CloseIcon } from 'react-icons/ai'
@@ -15,15 +15,18 @@ import PromptModal from './PromptModal'
 import useModal from '../hooks/useModal'
 import MembersModal from './MembersModal'
 import { useNavigate } from 'react-router-dom'
+import useUserStore from '../store/useUserStore'
 
 const ChatToolbar: FC = () => {
   const navigate = useNavigate()
   const selectedConv = useSelectedConversationStore(state => state.conversation)
+  const user = useUserStore(state => state.user)
   const close = useChatStatusStore(state => state.close)
   const [isMenuOpen, setMenuOpen] = useState(false)
   const [closeMembersModal, openMembersModal, isMembersModalOpen] = useModal()
   const [closeLeaveModal, openLeaveModal, isLeaveModalOpen] = useModal()
   const [closeDeleteModal, openDeleteModal, isDeleteModalOpen] = useModal()
+  const dotsRef: React.MutableRefObject<any> = useRef(null)
 
   const { sendRequest: sendLeaveRequest } = useRequest(
     leaveConv,
@@ -41,6 +44,18 @@ const ChatToolbar: FC = () => {
     err => {}
   )
 
+  useEffect(() => {
+    function handleClickOutside(event: any) {
+      if (dotsRef.current && !dotsRef.current.contains(event.target)) {
+        setMenuOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [dotsRef])
+
   const handleCloseChat = () => {
     close()
   }
@@ -48,26 +63,30 @@ const ChatToolbar: FC = () => {
   return (
     <div className={s.container}>
       <MembersModal close={closeMembersModal} isOpen={isMembersModalOpen} />
-      <PromptModal
-        close={closeLeaveModal}
-        confirmTitle='Yes, leave'
-        description='Are you sure you want to leave this conversation? You can join again anytime.'
-        handleConfirm={() => {
-          sendLeaveRequest()
-        }}
-        isOpen={isLeaveModalOpen}
-        title='Leave Conversation'
-      />
-      <PromptModal
-        close={closeDeleteModal}
-        confirmTitle='Yes, delete it'
-        description='Are you sure you want to delete this conversation? All of the data will be lost.'
-        handleConfirm={() => {
-          sendDeleteRequest()
-        }}
-        isOpen={isDeleteModalOpen}
-        title='Delete Conversation'
-      />
+      {user?.id !== selectedConv?.creatorId && (
+        <PromptModal
+          close={closeLeaveModal}
+          confirmTitle='Yes, leave'
+          description='Are you sure you want to leave this conversation? You can join again anytime.'
+          handleConfirm={() => {
+            sendLeaveRequest(selectedConv?.id)
+          }}
+          isOpen={isLeaveModalOpen}
+          title='Leave Conversation'
+        />
+      )}
+      {user?.id === selectedConv?.creatorId && (
+        <PromptModal
+          close={closeDeleteModal}
+          confirmTitle='Yes, delete it'
+          description='Are you sure you want to delete this conversation? All of the data will be lost.'
+          handleConfirm={() => {
+            sendDeleteRequest(selectedConv?.id)
+          }}
+          isOpen={isDeleteModalOpen}
+          title='Delete Conversation'
+        />
+      )}
       <div className={s.inner}>
         <div className={s.closeIcon} onClick={handleCloseChat}>
           <CloseIcon
@@ -79,13 +98,16 @@ const ChatToolbar: FC = () => {
         <div className={s.conv}>
           <div className={s.convName}>{selectedConv && selectedConv.name}</div>
         </div>
-        <div className={s.dots}>
+        <div
+          className={s.dots}
+          onClick={() => {
+            setMenuOpen(true)
+          }}
+          ref={dotsRef}
+        >
           <DotsIcon
             style={{
               fontSize: '22px',
-            }}
-            onClick={() => {
-              setMenuOpen(prevState => !prevState)
             }}
           />
           <div
@@ -97,18 +119,22 @@ const ChatToolbar: FC = () => {
               </div>
               <div className={s.menuText}>Members</div>
             </div>
-            <div className={s.menuItem} onClick={openLeaveModal}>
-              <div className={s.menuIcon}>
-                <LeaveIcon />
+            {user?.id !== selectedConv?.creatorId && (
+              <div className={s.menuItem} onClick={openLeaveModal}>
+                <div className={s.menuIcon}>
+                  <LeaveIcon />
+                </div>
+                <div className={s.menuText}>Leave Chat</div>
               </div>
-              <div className={s.menuText}>Leave Chat</div>
-            </div>
-            <div className={s.menuItem} onClick={openDeleteModal}>
-              <div className={s.menuIcon}>
-                <TrashIcon />
+            )}
+            {user?.id === selectedConv?.creatorId && (
+              <div className={s.menuItem} onClick={openDeleteModal}>
+                <div className={s.menuIcon}>
+                  <TrashIcon />
+                </div>
+                <div className={s.menuText}>Delete Chat</div>
               </div>
-              <div className={s.menuText}>Delete Chat</div>
-            </div>
+            )}
           </div>
         </div>
       </div>

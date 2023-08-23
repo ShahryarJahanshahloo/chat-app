@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { FormEventHandler, useState } from 'react'
 import Modal from './Modal'
 import s from './ConversationModal.module.css'
 import { useNavigate } from 'react-router-dom'
@@ -20,7 +20,8 @@ const ConversationModal: React.FC<Props> = ({ isOpen, close }) => {
     err => {}
   )
 
-  const handleSubmit = () => {
+  const handleSubmit: FormEventHandler<HTMLFormElement> = e => {
+    e.preventDefault()
     sendRequest({ name: convName })
   }
 
@@ -37,6 +38,13 @@ const ConversationModal: React.FC<Props> = ({ isOpen, close }) => {
         <form onSubmit={handleSubmit}>
           <input
             name='convName'
+            value={convName}
+            onChange={e => {
+              setConvName(e.target.value.trim())
+            }}
+            required
+            minLength={3}
+            maxLength={31}
             className={s.input}
             type='text'
             placeholder='Choose a name'
